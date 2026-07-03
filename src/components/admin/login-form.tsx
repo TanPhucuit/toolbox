@@ -11,11 +11,20 @@ export function LoginForm() {
     <form action={formAction} className="stitch-card mx-auto max-w-md space-y-5 p-8">
       <div>
         <h1 className="text-2xl font-bold">Đăng nhập admin</h1>
-        <p className="mt-2 text-sm text-on-surface-variant">Chỉ tài khoản có trong bảng admin_users mới được truy cập.</p>
+        <p className="mt-2 text-sm text-on-surface-variant">
+          Chỉ tài khoản có trong bảng admin_users mới được truy cập.
+        </p>
       </div>
       <label className="block">
-        <span className="admin-label">Email</span>
-        <input className="admin-input" name="email" type="email" autoComplete="email" required />
+        <span className="admin-label">Tên đăng nhập hoặc email</span>
+        <input
+          className="admin-input"
+          name="email"
+          type="text"
+          autoComplete="username"
+          placeholder="admin123"
+          required
+        />
       </label>
       <label className="block">
         <span className="admin-label">Mật khẩu</span>

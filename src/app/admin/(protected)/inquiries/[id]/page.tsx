@@ -2,6 +2,15 @@ import { notFound } from "next/navigation";
 import { updateInquiry } from "@/lib/admin/actions";
 import { toDateTime } from "@/lib/utils/format";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import type { InquiryStatus } from "@/types/database.types";
+
+const statusOptions: Array<{ value: InquiryStatus; label: string }> = [
+  { value: "new", label: "Mới" },
+  { value: "reviewing", label: "Đang xem" },
+  { value: "contacted", label: "Đã phản hồi" },
+  { value: "completed", label: "Hoàn tất" },
+  { value: "spam", label: "Spam" }
+];
 
 export default async function InquiryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -25,8 +34,18 @@ export default async function InquiryDetailPage({ params }: { params: Promise<{ 
       </section>
       <form action={updateInquiry} className="stitch-card space-y-4 p-6">
         <input type="hidden" name="id" value={data.id} />
-        <label><span className="admin-label">Status</span><select className="admin-input" name="status" defaultValue={data.status}><option value="new">new</option><option value="reviewing">reviewing</option><option value="contacted">contacted</option><option value="completed">completed</option><option value="spam">spam</option></select></label>
-        <label><span className="admin-label">Ghi chú nội bộ</span><textarea className="admin-input min-h-32" name="admin_notes" defaultValue={data.admin_notes ?? ""} /></label>
+        <label className="block">
+          <span className="admin-label">Trạng thái</span>
+          <select className="admin-input" name="status" defaultValue={data.status}>
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>{option.label}</option>
+            ))}
+          </select>
+        </label>
+        <label className="block">
+          <span className="admin-label">Ghi chú nội bộ</span>
+          <textarea className="admin-input min-h-32" name="admin_notes" defaultValue={data.admin_notes ?? ""} />
+        </label>
         <button className="rounded-lg bg-primary px-5 py-3 font-semibold text-white">Cập nhật</button>
       </form>
     </div>

@@ -256,8 +256,8 @@ values (
   'site-assets',
   'site-assets',
   true,
-  5242880,
-  array['image/png','image/jpeg','image/webp']
+  52428800,
+  array['image/png','image/jpeg','image/webp','video/mp4','video/webm','video/quicktime']
 )
 on conflict (id) do nothing;
 

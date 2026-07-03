@@ -32,11 +32,12 @@ async function log(action: string, entityType: string, entityId?: string | null,
 }
 
 export async function loginAdmin(_: ActionState, formData: FormData): Promise<ActionState> {
-  const email = value(formData, "email").trim();
+  const login = value(formData, "email").trim();
+  const email = login.includes("@") ? login : `${login}@toolboxviet.local`;
   const password = value(formData, "password");
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error || !data.user) return { ok: false, message: "Email hoặc mật khẩu không đúng." };
+  if (error || !data.user) return { ok: false, message: "Tên đăng nhập hoặc mật khẩu không đúng." };
 
   const { data: admin } = await supabase
     .from("admin_users")
