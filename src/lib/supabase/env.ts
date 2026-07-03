@@ -18,5 +18,19 @@ export function getSecretEnv() {
 }
 
 export function getSiteUrl() {
-  return process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const explicitUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicitUrl) return normalizeSiteUrl(explicitUrl);
+
+  const vercelProductionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercelProductionUrl) return normalizeSiteUrl(vercelProductionUrl);
+
+  const vercelUrl = process.env.VERCEL_URL;
+  if (vercelUrl) return normalizeSiteUrl(vercelUrl);
+
+  return "http://localhost:3000";
+}
+
+function normalizeSiteUrl(url: string) {
+  const withProtocol = url.startsWith("http") ? url : `https://${url}`;
+  return withProtocol.replace(/\/$/, "");
 }
