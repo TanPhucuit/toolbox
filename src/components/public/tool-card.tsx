@@ -41,6 +41,7 @@ export function ToolCard({
         <Link
           href={tool.primary_cta_type === "external" && tool.primary_cta_url ? tool.primary_cta_url : `/tool/${tool.slug}#contact-section`}
           rel={tool.primary_cta_type === "external" ? "noopener noreferrer" : undefined}
+          data-event={isFree ? "download_trial_click" : isContact ? "inquiry_click" : "pricing_view"}
           className={isContact ? "inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-5 py-3 text-sm font-semibold text-primary hover:bg-primary/5" : "inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-container"}
         >
           {isFree ? <Download className="h-4 w-4" /> : isContact ? <MessageCircle className="h-4 w-4" /> : <ShoppingBag className="h-4 w-4" />}

@@ -16,57 +16,77 @@ type QueryFilters = {
 };
 
 export async function getSiteSettings(): Promise<SiteSettings | null> {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
-  return data as SiteSettings | null;
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
+    return data as SiteSettings | null;
+  } catch (error) {
+    if (isMissingSupabaseEnv(error)) return null;
+    throw error;
+  }
 }
 
 export async function getContentBlock(pageKey: string, sectionKey: string) {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase
-    .from("content_blocks")
-    .select("*")
-    .eq("page_key", pageKey)
-    .eq("section_key", sectionKey)
-    .eq("is_published", true)
-    .maybeSingle();
-  return data as ContentBlock | null;
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data } = await supabase
+      .from("content_blocks")
+      .select("*")
+      .eq("page_key", pageKey)
+      .eq("section_key", sectionKey)
+      .eq("is_published", true)
+      .maybeSingle();
+    return data as ContentBlock | null;
+  } catch (error) {
+    if (isMissingSupabaseEnv(error)) return null;
+    throw error;
+  }
 }
 
 export async function getCategories() {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase
-    .from("categories")
-    .select("*")
-    .eq("is_published", true)
-    .order("sort_order");
-  return (data ?? []) as Category[];
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data } = await supabase
+      .from("categories")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order");
+    return (data ?? []) as Category[];
+  } catch (error) {
+    if (isMissingSupabaseEnv(error)) return [];
+    throw error;
+  }
 }
 
 export async function getTools(filters: QueryFilters = {}) {
-  const supabase = await createServerSupabaseClient();
-  let query = supabase
-    .from("tools")
-    .select("*, categories(name, slug)")
-    .eq("is_published", true)
-    .order("is_featured", { ascending: false })
-    .order("sort_order", { ascending: true });
+  try {
+    const supabase = await createServerSupabaseClient();
+    let query = supabase
+      .from("tools")
+      .select("*, categories(name, slug)")
+      .eq("is_published", true)
+      .order("is_featured", { ascending: false })
+      .order("sort_order", { ascending: true });
 
-  if (filters.q) {
-    query = query.or(
-      `name.ilike.%${filters.q}%,short_description.ilike.%${filters.q}%`
-    );
+    if (filters.q) {
+      query = query.or(
+        `name.ilike.%${filters.q}%,short_description.ilike.%${filters.q}%`
+      );
+    }
+
+    if (filters.category) {
+      const categories = await getCategories();
+      const matched = categories.find((category) => category.slug === filters.category);
+      if (!matched) return [];
+      query = query.eq("category_id", matched.id);
+    }
+
+    const { data } = await query;
+    return (data ?? []) as (Tool & { categories?: Pick<Category, "name" | "slug"> })[];
+  } catch (error) {
+    if (isMissingSupabaseEnv(error)) return [];
+    throw error;
   }
-
-  if (filters.category) {
-    const categories = await getCategories();
-    const matched = categories.find((category) => category.slug === filters.category);
-    if (!matched) return [];
-    query = query.eq("category_id", matched.id);
-  }
-
-  const { data } = await query;
-  return (data ?? []) as (Tool & { categories?: Pick<Category, "name" | "slug"> })[];
 }
 
 export async function getToolBySlug(slug: string) {
@@ -85,14 +105,19 @@ export async function getToolBySlug(slug: string) {
 }
 
 export async function getServices() {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase
-    .from("services")
-    .select("*")
-    .eq("is_published", true)
-    .order("is_featured", { ascending: false })
-    .order("sort_order");
-  return (data ?? []) as Service[];
+  try {
+    const supabase = await createServerSupabaseClient();
+    const { data } = await supabase
+      .from("services")
+      .select("*")
+      .eq("is_published", true)
+      .order("is_featured", { ascending: false })
+      .order("sort_order");
+    return (data ?? []) as Service[];
+  } catch (error) {
+    if (isMissingSupabaseEnv(error)) return [];
+    throw error;
+  }
 }
 
 export async function getServiceBySlug(slug: string) {
@@ -105,4 +130,8 @@ export async function getServiceBySlug(slug: string) {
     .maybeSingle();
   if (!data) notFound();
   return data as Service;
+}
+
+function isMissingSupabaseEnv(error: unknown) {
+  return error instanceof Error && error.message.includes("Missing Supabase public env");
 }

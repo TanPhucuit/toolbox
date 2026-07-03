@@ -97,6 +97,7 @@ export function InquiryForm({ inquiryType = "general", toolId, serviceId, source
       ) : null}
       <button
         disabled={isSubmitting}
+        data-event="inquiry_click"
         className="min-h-11 w-full rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-container disabled:opacity-60"
       >
         {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu tư vấn"}

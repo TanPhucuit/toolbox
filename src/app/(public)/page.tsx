@@ -2,6 +2,7 @@ import { CheckCircle2, Filter } from "lucide-react";
 import Link from "next/link";
 import { ToolCard } from "@/components/public/tool-card";
 import { getCategories, getContentBlock, getTools } from "@/lib/public-data";
+import { landingHref, seoLandingPages } from "@/lib/seo-content";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,25 @@ export default async function HomePage({
       </section>
 
       <section className="container-shell py-8">
+        <div className="mb-8">
+          <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-on-surface">Nhóm nhu cầu xử lý file</h2>
+              <p className="mt-2 text-on-surface-variant">
+                Các landing page SEO theo đúng workflow: ảnh sản phẩm, file, Excel/CSV, PDF và phụ đề.
+              </p>
+            </div>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {seoLandingPages.map((page) => (
+              <Link key={page.slug} href={landingHref(page.slug)} className="stitch-card block p-5 hover:border-primary">
+                <p className="text-sm font-bold uppercase tracking-normal text-primary">{page.toolName}</p>
+                <h3 className="mt-2 text-xl font-bold">{page.primaryKeyword}</h3>
+                <p className="mt-2 text-sm leading-6 text-on-surface-variant">{page.description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
         <div className="mb-8 stitch-card flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
             <Filter className="h-4 w-4" />
