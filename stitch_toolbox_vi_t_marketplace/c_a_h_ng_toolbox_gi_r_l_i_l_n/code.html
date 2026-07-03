@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ToolBox Việt - Cửa hàng phần mềm</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "outline-variant": "#c2c6d6",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container": "#ecedf7",
+                        "inverse-on-surface": "#eff0fa",
+                        "primary-fixed-dim": "#adc6ff",
+                        "primary-container": "#2170e4",
+                        "inverse-surface": "#2e3038",
+                        "on-surface": "#191b23",
+                        "on-primary-fixed": "#001a42",
+                        "surface-container-highest": "#e1e2ec",
+                        "surface-variant": "#e1e2ec",
+                        "on-tertiary-fixed": "#311400",
+                        "inverse-primary": "#adc6ff",
+                        "tertiary-container": "#b75b00",
+                        "surface-dim": "#d8d9e3",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#586377",
+                        "primary": "#0058be",
+                        "on-primary": "#ffffff",
+                        "secondary": "#545f73",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#111c2d",
+                        "on-background": "#191b23",
+                        "surface-tint": "#005ac2",
+                        "on-primary-container": "#fefcff",
+                        "tertiary": "#924700",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-high": "#e6e7f2",
+                        "tertiary-fixed": "#ffdcc6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "outline": "#727785",
+                        "surface": "#f9f9ff",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-primary-fixed-variant": "#004395",
+                        "surface-bright": "#f9f9ff",
+                        "on-tertiary-container": "#fffbff",
+                        "on-surface-variant": "#424754",
+                        "surface-container-low": "#f2f3fd",
+                        "background": "#f9f9ff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "section-padding": "64px",
+                        "stack-lg": "32px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface border-b border-outline-variant shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+<!-- Brand -->
+<div class="flex items-center gap-4">
+<img alt="ToolBox Việt" class="w-10 h-10 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuLJMd_E6_TejOQM6VJdENonxjzAaRlyUafPVTiTLrhwtbYYfEWXnUknk0c2pIS9TJ-RJpSa7eWgSYnFEveDzLsxtwlM8AYiLdBVDqVozJtr402tDbsDa57OgGSajiB-P1mRT8RwXr7S6096va7Si2Cm-j-tJw1LPex4RxKBWI9iKMJsmgCVovRol9rDry3AZzKF4R62eDNJdaNdJtfu1gzjgxlkP1VrNSDmPLJGxzpwt_MwJX_mcHxwA"/>
+<span class="text-title-lg font-title-lg font-bold text-primary">ToolBox Việt</span>
+</div>
+<!-- Navigation Links (Desktop) -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md" href="#">Cửa hàng</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-md hover:bg-surface-container-low px-3 py-2 rounded-md" href="#">Dịch vụ</a>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded-full text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="Tìm kiếm tool, tính năng..." type="text"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Header Section -->
+<header class="bg-surface-container-lowest py-section-padding border-b border-outline-variant">
+<div class="max-w-container-max mx-auto px-gutter text-center">
+<h1 class="text-display-lg font-display-lg text-on-surface mb-4">Cửa hàng phần mềm</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-8">
+                    Các công cụ Windows giúp tự động hóa công việc, xử lý dữ liệu và tiết kiệm thời gian.
+                </p>
+<!-- Trust Row -->
+<div class="flex flex-wrap justify-center gap-6 text-label-sm font-label-sm text-secondary">
+<div class="flex items-center gap-2 bg-surface px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="verified">verified</span>
+                        Phần mềm chính chủ
+                    </div>
+<div class="flex items-center gap-2 bg-surface px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="update">update</span>
+                        Cập nhật miễn phí
+                    </div>
+<div class="flex items-center gap-2 bg-surface px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="language">language</span>
+                        Hỗ trợ tiếng Việt
+                    </div>
+<div class="flex items-center gap-2 bg-surface px-4 py-2 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-primary" data-icon="security">security</span>
+                        Thanh toán an toàn
+                    </div>
+</div>
+</div>
+</header>
+<!-- Catalog Section -->
+<div class="max-w-container-max mx-auto px-gutter py-stack-lg">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-gutter">
+<!-- Sidebar Filters -->
+<!-- Product Grid Area -->
+<div class="lg:col-span-4 flex flex-col gap-stack-lg">
+<!-- Toolbar -->
+<div class="flex justify-between items-center bg-surface-container-lowest p-4 rounded-xl border border-outline-variant shadow-sm"><!-- Card 1: Batch Image Studio -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<span class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary text-xs font-bold px-2 py-1 rounded">Bán chạy</span>
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="imagesmode">imagesmode</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Batch Image Studio</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Công cụ xử lý ảnh hàng loạt mạnh mẽ, nén, đóng dấu và đổi định dạng trong vài giây.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="block text-body-sm text-outline line-through mb-0.5">799.000₫</span>
+<span class="text-2xl font-bold text-primary">599.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 2: PDF Workflow Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">PDF Workflow Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Trộn, chia nhỏ, bảo mật và trích xuất dữ liệu từ hàng ngàn file PDF tự động.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-on-surface">Liên hệ báo giá</span>
+</div>
+<button class="border border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="forum">forum</span> Tư vấn
+        </button>
+</div>
+</article>
+<!-- Card 3: CSV Cleaner -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<span class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary text-xs font-bold px-2 py-1 rounded">Bán chạy</span>
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="dataset">dataset</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">CSV Cleaner</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Làm sạch, định dạng và phân tích dữ liệu CSV dung lượng lớn không cần mở Excel.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">499.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 4: Auto Clicker Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="ads_click">ads_click</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Auto Clicker Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Tự động hóa thao tác chuột và bàn phím với độ chính xác cao cho game và công việc.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">299.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 5: Excel Data Merger -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="table_chart">table_chart</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Excel Data Merger</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Gộp hàng trăm file Excel thành một báo cáo duy nhất chỉ với một cú nhấp chuột.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">499.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 6: Telegram Auto Sender -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="send">send</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Telegram Auto Sender</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Giải pháp gửi tin nhắn hàng loạt và quản lý nhóm Telegram chuyên nghiệp cho doanh nghiệp.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-on-surface">Liên hệ báo giá</span>
+</div>
+<button class="border border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="forum">forum</span> Tư vấn
+        </button>
+</div>
+</article>
+<!-- Card 7: Website Scraper Ultra -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="data_object">data_object</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Website Scraper Ultra</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Trích xuất dữ liệu từ bất kỳ trang web nào sang Excel/JSON một cách tự động và nhanh chóng.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">799.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 8: Zalo Marketing Tool -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="chat">chat</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Zalo Marketing Tool</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Tự động kết bạn, gửi tin nhắn và chăm sóc khách hàng trên nền tảng Zalo hiệu quả.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">899.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 9: File Renamer Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="drive_file_rename_outline">drive_file_rename_outline</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">File Renamer Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Đổi tên hàng loạt tệp tin theo quy tắc thông minh, hỗ trợ Regex và metadata.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">199.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 10: Image Compressor -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="photo_size_select_small">photo_size_select_small</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Image Compressor</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Giảm dung lượng ảnh hàng loạt mà không làm giảm chất lượng hiển thị.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">Miễn phí</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span> Tải về
+        </button>
+</div>
+</article></div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter"><!-- Card 1: Batch Image Studio -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<span class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary text-xs font-bold px-2 py-1 rounded">Bán chạy</span>
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="imagesmode">imagesmode</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Batch Image Studio</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Công cụ xử lý ảnh hàng loạt mạnh mẽ, nén, đóng dấu và đổi định dạng trong vài giây.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="block text-body-sm text-outline line-through mb-0.5">799.000₫</span>
+<span class="text-2xl font-bold text-primary">599.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 2: PDF Workflow Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="picture_as_pdf">picture_as_pdf</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">PDF Workflow Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Trộn, chia nhỏ, bảo mật và trích xuất dữ liệu từ hàng ngàn file PDF tự động.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-on-surface">Liên hệ báo giá</span>
+</div>
+<button class="border border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="forum">forum</span> Tư vấn
+        </button>
+</div>
+</article>
+<!-- Card 3: CSV Cleaner -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<span class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary text-xs font-bold px-2 py-1 rounded">Bán chạy</span>
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="dataset">dataset</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">CSV Cleaner</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Làm sạch, định dạng và phân tích dữ liệu CSV dung lượng lớn không cần mở Excel.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">499.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 4: Auto Clicker Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="ads_click">ads_click</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Auto Clicker Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Tự động hóa thao tác chuột và bàn phím với độ chính xác cao cho game và công việc.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">299.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 5: Excel Data Merger -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="table_chart">table_chart</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Excel Data Merger</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Gộp hàng trăm file Excel thành một báo cáo duy nhất chỉ với một cú nhấp chuột.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">499.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 6: Telegram Auto Sender -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="send">send</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Telegram Auto Sender</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Giải pháp gửi tin nhắn hàng loạt và quản lý nhóm Telegram chuyên nghiệp cho doanh nghiệp.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-on-surface">Liên hệ báo giá</span>
+</div>
+<button class="border border-primary text-primary hover:bg-primary/5 px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="forum">forum</span> Tư vấn
+        </button>
+</div>
+</article>
+<!-- Card 7: Website Scraper Ultra -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="data_object">data_object</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Website Scraper Ultra</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Trích xuất dữ liệu từ bất kỳ trang web nào sang Excel/JSON một cách tự động và nhanh chóng.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">799.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 8: Zalo Marketing Tool -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-secondary-container/20 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="chat">chat</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Zalo Marketing Tool</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Tự động kết bạn, gửi tin nhắn và chăm sóc khách hàng trên nền tảng Zalo hiệu quả.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">899.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 9: File Renamer Pro -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-surface-tint/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-surface-tint text-3xl" data-icon="drive_file_rename_outline">drive_file_rename_outline</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">File Renamer Pro</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Đổi tên hàng loạt tệp tin theo quy tắc thông minh, hỗ trợ Regex và metadata.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">199.000₫</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="add_shopping_cart">add_shopping_cart</span> Mua
+        </button>
+</div>
+</article>
+<!-- Card 10: Image Compressor -->
+<article class="bg-surface-container-lowest rounded-[16px] p-8 border border-outline-variant shadow-[0px_4px_20px_rgba(30,41,59,0.05)] hover:shadow-[0px_10px_30px_rgba(30,41,59,0.08)] transition-shadow duration-300 flex flex-col relative group">
+<div class="w-14 h-14 bg-primary-container/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="photo_size_select_small">photo_size_select_small</span>
+</div>
+<h3 class="text-2xl font-bold text-on-surface mb-3">Image Compressor</h3>
+<p class="text-body-md text-on-surface-variant mb-8 flex-grow">Giảm dung lượng ảnh hàng loạt mà không làm giảm chất lượng hiển thị.</p>
+<div class="flex items-end justify-between mt-auto pt-6 border-t border-outline-variant/50">
+<div>
+<span class="text-2xl font-bold text-primary">Miễn phí</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 rounded-lg font-label-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]" data-icon="download">download</span> Tải về
+        </button>
+</div>
+</article></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant mt-auto">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-stack-lg w-full px-gutter py-section-padding max-w-container-max mx-auto">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-2 mb-4">
+<img alt="ToolBox Việt Logo Footer" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLuLJMd_E6_TejOQM6VJdENonxjzAaRlyUafPVTiTLrhwtbYYfEWXnUknk0c2pIS9TJ-RJpSa7eWgSYnFEveDzLsxtwlM8AYiLdBVDqVozJtr402tDbsDa57OgGSajiB-P1mRT8RwXr7S6096va7Si2Cm-j-tJw1LPex4RxKBWI9iKMJsmgCVovRol9rDry3AZzKF4R62eDNJdaNdJtfu1gzjgxlkP1VrNSDmPLJGxzpwt_MwJX_mcHxwA"/>
+<span class="text-title-lg font-title-lg font-bold text-on-surface">ToolBox Việt</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">© 2024 ToolBox Việt - Phần mềm được ký số. Tất cả quyền được bảo lưu.</p>
+</div>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface font-bold mb-4">Links</h4>
+<ul class="space-y-2 text-body-sm font-body-sm text-on-surface-variant">
+<li><a class="hover:underline hover:text-primary transition-colors" href="#">Sản phẩm</a></li>
+<li><a class="hover:underline hover:text-primary transition-colors" href="#">Hỗ trợ</a></li>
+<li><a class="hover:underline hover:text-primary transition-colors" href="#">Chính sách</a></li>
+<li><a class="hover:underline hover:text-primary transition-colors" href="#">Liên hệ</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<!-- Tư Vấn Ngay Floating Widget -->
+<details class="fixed bottom-6 right-6 z-[100] group">
+<summary class="bg-primary text-on-primary px-6 py-3 rounded-full shadow-lg font-label-md cursor-pointer list-none flex items-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+        Tư vấn ngay
+    </summary>
+<div class="absolute bottom-full right-0 mb-4 w-80 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-[0px_10px_40px_rgba(30,41,59,0.1)] p-6">
+<h3 class="text-title-lg font-bold text-on-surface mb-4">Nhận tư vấn miễn phí</h3>
+<form class="space-y-4">
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Họ tên</label>
+<input class="w-full border border-outline-variant rounded-md px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" placeholder="Nhập họ tên của bạn" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Số điện thoại</label>
+<input class="w-full border border-outline-variant rounded-md px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" placeholder="Nhập số điện thoại" type="tel"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Zalo</label>
+<input class="w-full border border-outline-variant rounded-md px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" placeholder="Nhập số Zalo" type="text"/>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-on-surface-variant mb-1">Email</label>
+<input class="w-full border border-outline-variant rounded-md px-3 py-2 text-body-sm focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none" placeholder="Nhập email" type="email"/>
+</div>
+<button class="w-full bg-primary text-on-primary py-2 rounded-md font-label-md hover:bg-primary/90 transition-colors mt-2" type="button">Gửi yêu cầu</button>
+</form>
+</div>
+</details>
+</body></html>
