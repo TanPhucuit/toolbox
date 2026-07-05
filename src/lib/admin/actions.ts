@@ -262,6 +262,60 @@ export async function saveContentBlock(formData: FormData) {
   redirect("/admin/content");
 }
 
+export async function saveContentBlockInline(formData: FormData) {
+  await requireAdmin();
+  const id = value(formData, "id");
+  const body = value(formData, "content_body");
+  const description = value(formData, "content_description");
+  const list = value(formData, "content_list")
+    .split("\n")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  const content =
+    list.length > 0
+      ? { body, description, badges: list, items: list }
+      : { body, description };
+  const row = {
+    page_key: value(formData, "page_key").trim(),
+    section_key: value(formData, "section_key").trim(),
+    title: value(formData, "title").trim() || null,
+    content,
+    is_published: checkbox(formData, "is_published"),
+    sort_order: Number(value(formData, "sort_order") || 0)
+  };
+  if (!row.page_key || !row.section_key) {
+    return { ok: false, message: "Page key và section key là bắt buộc." };
+  }
+  const supabase = await createServerSupabaseClient();
+  const result = id
+    ? await supabase.from("content_blocks").update(row).eq("id", id).select("id").single()
+    : await supabase.from("content_blocks").insert(row).select("id").single();
+  if (result.error) return { ok: false, message: "Không lưu được nội dung." };
+  await log(id ? "update" : "create", "content_block", result.data.id, row);
+  revalidatePath("/");
+  revalidatePath("/dich-vu");
+  revalidatePath("/lien-he");
+  revalidatePath("/chinh-sach-bao-mat");
+  revalidatePath("/dieu-khoan-su-dung");
+  revalidatePath("/admin/content");
+  return { ok: true, message: "Đã lưu nội dung." };
+}
+
+export async function deleteContentBlock(formData: FormData) {
+  await requireAdmin();
+  const id = value(formData, "id");
+  if (!id) return { ok: false, message: "Thiếu nội dung cần xóa." };
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.from("content_blocks").delete().eq("id", id);
+  if (error) return { ok: false, message: "Không xóa được nội dung." };
+  await log("delete", "content_block", id);
+  revalidatePath("/");
+  revalidatePath("/dich-vu");
+  revalidatePath("/lien-he");
+  revalidatePath("/admin/content");
+  return { ok: true, message: "Đã xóa nội dung." };
+}
+
 export async function updateInquiry(formData: FormData) {
   await requireAdmin();
   const id = value(formData, "id");

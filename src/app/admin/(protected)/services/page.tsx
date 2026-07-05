@@ -1,29 +1,78 @@
 import Link from "next/link";
+import { Eye, Pencil, Plus, Trash2 } from "lucide-react";
 import { deleteService } from "@/lib/admin/actions";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export default async function AdminServicesPage() {
   const supabase = await createServerSupabaseClient();
-  const { data } = await supabase.from("services").select("id,title,slug,is_published,is_featured,sort_order").order("sort_order");
+  const { data } = await supabase
+    .from("services")
+    .select("id,title,slug,short_description,is_published,is_featured,sort_order")
+    .order("sort_order");
+  const services = data ?? [];
+
   return (
-    <div>
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-bold">Quản lý dịch vụ</h1>
-        <Link className="min-h-11 rounded-lg bg-primary px-5 py-3 text-center font-semibold text-white" href="/admin/services/new">Thêm dịch vụ</Link>
-      </div>
-      <div className="stitch-card overflow-x-auto">
-        <table className="w-full min-w-[680px] text-left text-sm">
-          <thead className="border-b border-outline-variant bg-surface-container-low">
-            <tr><th className="p-3">Tên</th><th>Slug</th><th>Trạng thái</th><th>Featured</th><th>Sort</th><th>Thao tác</th></tr>
-          </thead>
-          <tbody>{(data ?? []).map((service) => (
-            <tr key={service.id} className="border-b border-outline-variant">
-              <td className="p-3 font-semibold">{service.title}</td><td>{service.slug}</td><td>{service.is_published ? "Published" : "Draft"}</td><td>{service.is_featured ? "Có" : "Không"}</td><td>{service.sort_order}</td>
-              <td className="flex gap-2 p-3"><Link className="rounded border px-3 py-2" href={`/admin/services/${service.id}/edit`}>Sửa</Link><Link className="rounded border px-3 py-2" href={`/dich-vu/${service.slug}`}>Preview</Link><form action={deleteService}><input type="hidden" name="id" value={service.id} /><button className="rounded border border-red-200 px-3 py-2 text-error">Xóa</button></form></td>
-            </tr>
-          ))}</tbody>
-        </table>
+    <div className="grid gap-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase text-primary">Quản lý dịch vụ</p>
+          <h1 className="mt-2 text-3xl font-bold">Dịch vụ</h1>
+          <p className="mt-2 text-on-surface-variant">Tạo, sửa và preview các dịch vụ phần mềm tùy chỉnh.</p>
+        </div>
+        <Link className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 font-semibold text-white" href="/admin/services/new">
+          <Plus className="h-4 w-4" />
+          Thêm dịch vụ
+        </Link>
+      </header>
+
+      <div className="grid gap-3">
+        {services.map((service) => (
+          <article key={service.id} className="rounded-lg border border-outline-variant bg-white p-4">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-lg font-bold">{service.title}</h2>
+                  <StatusBadge published={service.is_published} />
+                  {service.is_featured ? <span className="rounded-full bg-secondary-container px-3 py-1 text-xs font-bold text-primary">Featured</span> : null}
+                </div>
+                <p className="mt-1 break-all text-sm text-on-surface-variant">/dich-vu/{service.slug}</p>
+                <p className="mt-2 line-clamp-2 text-sm leading-6 text-on-surface-variant">{service.short_description}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-end">
+                <Link className="admin-action-button" href={`/admin/services/${service.id}/edit`}>
+                  <Pencil className="h-4 w-4" />
+                  Sửa
+                </Link>
+                <Link className="admin-action-button" href={`/dich-vu/${service.slug}`} target="_blank">
+                  <Eye className="h-4 w-4" />
+                  Preview
+                </Link>
+                <form action={deleteService}>
+                  <input type="hidden" name="id" value={service.id} />
+                  <button className="admin-action-button-danger w-full">
+                    <Trash2 className="h-4 w-4" />
+                    Xóa
+                  </button>
+                </form>
+              </div>
+            </div>
+          </article>
+        ))}
+        {!services.length ? (
+          <div className="rounded-lg border border-dashed border-outline-variant bg-white p-8 text-center">
+            <h2 className="text-xl font-bold">Chưa có dịch vụ nào</h2>
+            <p className="mt-2 text-on-surface-variant">Bấm “Thêm dịch vụ” để tạo dịch vụ đầu tiên.</p>
+          </div>
+        ) : null}
       </div>
     </div>
+  );
+}
+
+function StatusBadge({ published }: { published: boolean }) {
+  return (
+    <span className={`rounded-full px-3 py-1 text-xs font-bold ${published ? "bg-green-50 text-green-700" : "bg-surface-container-low text-on-surface-variant"}`}>
+      {published ? "Đang public" : "Bản nháp"}
+    </span>
   );
 }

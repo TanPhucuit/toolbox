@@ -7,8 +7,8 @@ const inter = Inter({ subsets: ["latin", "vietnamese"], display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title: "ToolBox Việt",
-  description: "Công cụ Windows, tool EXE và dịch vụ phần mềm tùy chỉnh.",
+  title: "toolbox giá rẻ",
+  description: "Tool Windows giá hợp lý, tool EXE và dịch vụ phần mềm tùy chỉnh.",
   robots: { index: true, follow: true }
 };
 
