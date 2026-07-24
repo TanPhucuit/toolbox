@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CheckCircle2, ExternalLink, Info, Monitor, PlayCircle } from "lucide-react";
 import type { CatalogTool } from "@/lib/catalog";
-import { InquiryForm } from "@/components/public/inquiry-form";
+import { ProductActions } from "@/components/public/product-actions";
 import { formatPrice, formatVnd } from "@/lib/utils/format";
 import { getSiteUrl } from "@/lib/supabase/env";
 import { getToolBySlug } from "@/lib/public-data";
@@ -75,9 +75,12 @@ export default async function ToolDetailPage({ params }: Props) {
             {tool.license_text ? <span>{tool.license_text}</span> : null}
           </div>
           {tool.demo_url ? <a href={tool.demo_url} target="_blank" rel="noreferrer" className="mb-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-primary px-6 py-3 font-semibold text-primary">Mở bản demo <ExternalLink className="h-4 w-4" /></a> : null}
-          <a href="#contact-section" className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-white hover:bg-primary-container">
-            {tool.primary_cta_label ?? "Yêu cầu tư vấn"}
-          </a>
+          <ProductActions
+            productName={tool.name}
+            priceText={formatPrice(tool.price_type, tool.price_vnd, tool.price_label)}
+            sourcePage={`/tool/${tool.slug}`}
+            availabilityNote={catalogTool.availabilityNote}
+          />
         </div>
       </section>
 
@@ -162,14 +165,6 @@ export default async function ToolDetailPage({ params }: Props) {
         </section>
       ) : null}
 
-      <section id="contact-section" className="mb-16 rounded-2xl border border-outline-variant bg-white p-6 shadow-sm md:p-8">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="mb-2 text-center text-2xl font-bold">Liên hệ tư vấn giải pháp</h2>
-          <p className="mb-8 text-center text-on-surface-variant">Để lại thông tin, đội ngũ kỹ thuật sẽ liên hệ với bạn trong thời gian sớm nhất.</p>
-          <div className="mb-6 text-center"><a href="https://zalo.me/0583790873" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#0068ff] px-6 font-bold text-white">Nhắn Zalo 0583790873 (toolboxgr)</a></div>
-          <InquiryForm inquiryType="tool" sourcePage={`/tool/${tool.slug}`} />
-        </div>
-      </section>
     </main>
   );
 }

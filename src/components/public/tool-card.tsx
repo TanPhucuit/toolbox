@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MessageCircle, Download, ShoppingBag } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { DynamicIcon } from "@/components/shared/icon";
 import { formatPrice, formatVnd } from "@/lib/utils/format";
 import type { Category, Tool } from "@/types/database.types";
@@ -10,8 +10,6 @@ export function ToolCard({
 }: {
   tool: Tool & { categories?: Pick<Category, "name" | "slug"> };
 }) {
-  const isContact = tool.price_type === "contact";
-  const isFree = tool.price_type === "free";
   return (
     <article className="stitch-card group relative flex min-h-[430px] flex-col overflow-hidden transition-shadow">
       {tool.badge ? (
@@ -41,18 +39,17 @@ export function ToolCard({
               {formatVnd(tool.old_price_vnd)}
             </span>
           ) : null}
-          <span className={isContact ? "text-xl font-bold text-on-surface" : "text-2xl font-bold text-primary"}>
+          <span className={tool.price_type === "contact" ? "text-xl font-bold text-on-surface" : "text-2xl font-bold text-primary"}>
             {formatPrice(tool.price_type, tool.price_vnd, tool.price_label)}
           </span>
         </div>
         <Link
-          href={tool.primary_cta_type === "external" && tool.primary_cta_url ? tool.primary_cta_url : `/tool/${tool.slug}#contact-section`}
-          rel={tool.primary_cta_type === "external" ? "noopener noreferrer" : undefined}
-          data-event={isFree ? "download_trial_click" : isContact ? "inquiry_click" : "pricing_view"}
-          className={isContact ? "inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-5 py-3 text-sm font-semibold text-primary hover:bg-primary/5" : "inline-flex min-h-11 items-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-container"}
+          href={`/tool/${tool.slug}`}
+          data-event="product_detail_click"
+          className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-primary px-4 py-3 text-sm font-semibold text-primary hover:bg-primary/5"
         >
-          {isFree ? <Download className="h-4 w-4" /> : isContact ? <MessageCircle className="h-4 w-4" /> : <ShoppingBag className="h-4 w-4" />}
-          {isFree ? "Tải về" : isContact ? "Xem chi tiết" : "Xem & mua"}
+          Xem chi tiết
+          <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
       </div>
