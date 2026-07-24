@@ -1,5 +1,1 @@
-import { redirect } from "next/navigation";
-
-export default function LegacyLandingPage() {
-  redirect("/giai-phap");
-}
+export { default, metadata } from "../giai-phap/page";

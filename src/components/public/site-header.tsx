@@ -9,7 +9,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings | null }) {
   return (
     <header className="sticky top-0 z-50 border-b border-outline-variant bg-surface shadow-sm">
       <div className="container-shell flex h-20 items-center justify-between gap-4">
-        <Link href="/" className="flex min-w-0 items-center gap-3">
+        <Link href="/landing" className="flex min-w-0 items-center gap-3" aria-label={`${brandName} — về landing page`}>
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white"><Wrench className="h-5 w-5" /></span>
           <span className="truncate text-lg font-bold text-primary sm:text-xl">{brandName}</span>
         </Link>

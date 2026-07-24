@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -6,7 +7,6 @@ import {
   Check,
   CircleDollarSign,
   Code2,
-  DatabaseZap,
   FileWarning,
   Globe2,
   MessageCircle,
@@ -14,9 +14,9 @@ import {
   RefreshCcw,
   ShieldCheck,
   Sparkles,
-  Table2,
-  Wrench
+  Table2
 } from "lucide-react";
+import { LandingPointerGlow, PremiumTilt } from "@/components/public/landing-effects";
 
 export const metadata: Metadata = {
   title: "Giải pháp phần mềm theo yêu cầu - tool box giá rẻ",
@@ -58,16 +58,20 @@ const pains = [
 ];
 
 const services = [
-  { icon: Globe2, title: "Website bán hàng & dịch vụ", text: "Landing page, website nhiều trang, form nhận khách, CMS và triển khai tên miền." },
-  { icon: DatabaseZap, title: "Tự động hóa dữ liệu", text: "Gộp, làm sạch, map cột, đối soát và xuất báo cáo từ Excel, CSV hoặc PDF." },
-  { icon: Table2, title: "Tool cho kế toán", text: "Nhập liệu hàng loạt, kiểm tra chứng từ, chuẩn hóa file và giảm thao tác copy–paste." },
-  { icon: Wrench, title: "Custom tool theo nhu cầu", text: "Ứng dụng Windows hoặc web app bám đúng file mẫu, quy tắc và người dùng thực tế." }
+  { image: "/services/website-design.png", title: "Website bán hàng & dịch vụ", text: "Landing page, website nhiều trang, form nhận khách, CMS và triển khai tên miền." },
+  { image: "/services/report-automation.png", title: "Tự động hóa dữ liệu", text: "Gộp, làm sạch, map cột, đối soát và xuất báo cáo từ Excel, CSV hoặc PDF." },
+  { image: "/services/accounting-automation.png", title: "Tool cho kế toán", text: "Nhập liệu hàng loạt, kiểm tra chứng từ, chuẩn hóa file và giảm thao tác copy–paste." },
+  { image: "/services/custom-tool.png", title: "Custom tool theo nhu cầu", text: "Ứng dụng Windows hoặc web app bám đúng file mẫu, quy tắc và người dùng thực tế." }
 ];
 
 export default function SolutionsLandingPage() {
   return (
-    <main className="overflow-hidden bg-[#070816] text-white">
-      <section className="solution-grid relative border-b border-white/10">
+    <main className="relative overflow-hidden bg-[#070816] text-white">
+      <LandingPointerGlow />
+      <section className="solution-grid landing-hero-shell relative border-b border-white/10">
+        <div className="landing-noise" aria-hidden="true" />
+        <div className="landing-beam landing-beam-one" aria-hidden="true" />
+        <div className="landing-beam landing-beam-two" aria-hidden="true" />
         <div className="solution-orb solution-orb-one" />
         <div className="solution-orb solution-orb-two" />
         <div className="container-shell relative z-10 grid min-h-[760px] items-center gap-14 py-20 lg:grid-cols-[1.08fr_0.92fr]">
@@ -91,22 +95,28 @@ export default function SolutionsLandingPage() {
             </div>
           </div>
 
-          <div className="solution-float relative">
-            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.07] shadow-2xl backdrop-blur-xl">
+          <div className="solution-float landing-hologram relative">
+            <div className="landing-orbit landing-orbit-one" aria-hidden="true" />
+            <div className="landing-orbit landing-orbit-two" aria-hidden="true" />
+            <div className="landing-data-chip landing-data-chip-one">INPUT 07</div>
+            <div className="landing-data-chip landing-data-chip-two">VALIDATED</div>
+            <div className="landing-scan overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.07] shadow-2xl backdrop-blur-xl">
               <div className="border-b border-white/10 p-6 md:p-7">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a8adff]">Một quy trình thường gặp</p>
                     <p className="mt-2 text-2xl font-bold">Dữ liệu đi qua nhiều chặng</p>
                   </div>
-                  <DatabaseZap className="h-7 w-7 text-[#7c71ff]" />
+                  <span className="flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-200">
+                    <span className="landing-live-dot h-1.5 w-1.5 rounded-full bg-emerald-300" /> Workflow live
+                  </span>
                 </div>
-                <div className="mt-7 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-2 text-center text-sm font-bold">
-                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">File đầu vào</span>
-                  <ArrowRight className="h-4 w-4 text-[#777e9d]" />
-                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Xử lý tay</span>
-                  <ArrowRight className="h-4 w-4 text-[#777e9d]" />
-                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Báo cáo</span>
+                <div className="landing-pipeline mt-7 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-2 text-center text-sm font-bold">
+                  <span className="landing-pipeline-node rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">File đầu vào</span>
+                  <span className="landing-flow-line"><ArrowRight className="h-4 w-4 text-[#777e9d]" /></span>
+                  <span className="landing-pipeline-node rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Chuẩn hóa</span>
+                  <span className="landing-flow-line landing-flow-delay"><ArrowRight className="h-4 w-4 text-[#777e9d]" /></span>
+                  <span className="landing-pipeline-node rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Đầu ra</span>
                 </div>
               </div>
 
@@ -138,6 +148,20 @@ export default function SolutionsLandingPage() {
             </div>
           </div>
         </div>
+        <div className="container-shell relative z-10 -mt-6 pb-10">
+          <div className="landing-command-dock grid gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl sm:grid-cols-3">
+            {[
+              ["01 / INPUT", "File mẫu, quy tắc, ngoại lệ"],
+              ["02 / LOGIC", "Đóng gói thành luồng kiểm tra được"],
+              ["03 / OUTPUT", "Đúng mẫu, có log, dễ bàn giao"]
+            ].map(([label, text]) => (
+              <div key={label} className="bg-[#0c0e21]/90 px-5 py-4">
+                <p className="font-mono text-[10px] font-bold tracking-[0.16em] text-[#8278ff]">{label}</p>
+                <p className="mt-1 text-sm font-semibold text-[#dfe1f2]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <section className="border-b border-white/10 bg-[#0b0d1d] py-6">
@@ -150,6 +174,22 @@ export default function SolutionsLandingPage() {
         </div>
       </section>
 
+      <section className="border-b border-white/10 bg-[#090a19]">
+        <div className="container-shell grid grid-cols-2 divide-x divide-white/10 md:grid-cols-4">
+          {[
+            ["01", "Workflow thật"],
+            ["100%", "Responsive"],
+            ["Local", "Ưu tiên dữ liệu"],
+            ["Rõ", "Phạm vi & giới hạn"]
+          ].map(([value, label]) => (
+            <div key={label} className="landing-stat px-4 py-8 text-center md:py-10">
+              <p className="text-3xl font-black tracking-[-0.04em] text-white md:text-4xl">{value}</p>
+              <p className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-[#777e9d]">{label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section id="van-de" className="container-shell py-20 md:py-28">
         <div className="max-w-3xl">
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-[#8c84ff]">Bắt đầu từ chỗ đang tốn thời gian</p>
@@ -157,7 +197,7 @@ export default function SolutionsLandingPage() {
         </div>
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
           {pains.map((item, index) => (
-            <article key={item.title} className="solution-card group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#101226] p-7 md:p-9">
+            <article key={item.title} className="solution-card landing-scroll-reveal group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#101226] p-7 md:p-9">
               <span className="absolute right-7 top-6 font-mono text-5xl font-black text-white/[0.035]">0{index + 1}</span>
               <item.icon className="h-9 w-9 text-[#8278ff]" />
               <h3 className="mt-7 text-2xl font-bold">{item.title}</h3>
@@ -180,12 +220,19 @@ export default function SolutionsLandingPage() {
               <p className="mt-5 leading-7 text-[#5d6278]">Không ép mua hệ thống lớn. Mỗi dự án bắt đầu bằng file mẫu, thao tác thật và tiêu chí nghiệm thu có thể kiểm tra.</p>
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
-              {services.map((item) => (
-                <article key={item.title} className="solution-light-card rounded-[1.5rem] border border-[#dfe2f2] bg-white p-7 shadow-[0_18px_60px_rgba(31,35,70,0.07)]">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eeedff] text-[#5548ff]"><item.icon className="h-6 w-6" /></span>
-                  <h3 className="mt-6 text-xl font-bold">{item.title}</h3>
-                  <p className="mt-3 leading-7 text-[#666c82]">{item.text}</p>
-                </article>
+              {services.map((item, index) => (
+                <PremiumTilt key={item.title} className={index % 2 ? "sm:translate-y-8" : ""}>
+                  <article className="solution-light-card h-full overflow-hidden rounded-[1.5rem] border border-[#dfe2f2] bg-white shadow-[0_18px_60px_rgba(31,35,70,0.07)]">
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <Image src={item.image} alt={`Minh họa ${item.title}`} fill className="object-cover transition duration-700 hover:scale-105" sizes="(max-width: 640px) 100vw, 35vw" />
+                      <span className="absolute left-4 top-4 rounded-full bg-black/65 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white backdrop-blur">0{index + 1} / Service</span>
+                    </div>
+                    <div className="p-7">
+                      <h3 className="text-xl font-bold">{item.title}</h3>
+                      <p className="mt-3 leading-7 text-[#666c82]">{item.text}</p>
+                    </div>
+                  </article>
+                </PremiumTilt>
               ))}
             </div>
           </div>
