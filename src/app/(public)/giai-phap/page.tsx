@@ -24,10 +24,10 @@ export const metadata: Metadata = {
 };
 
 const subscriptions = [
-  { name: "Microsoft 365 Personal", price: "US$99,99/năm", use: "Office và lưu trữ cá nhân" },
-  { name: "Adobe Acrobat Pro", price: "US$19,99/tháng", use: "Xử lý PDF chuyên sâu" },
-  { name: "Adobe Premiere", price: "US$22,99/tháng", use: "Dựng video chuyên nghiệp" },
-  { name: "Quizlet Plus Unlimited", price: "US$44,99/năm", use: "Flashcard và chế độ học" }
+  { name: "Microsoft 365 Personal", price: "US$99,99/năm" },
+  { name: "Adobe Acrobat Pro", price: "US$19,99/tháng" },
+  { name: "Adobe Premiere", price: "US$22,99/tháng" },
+  { name: "Quizlet Plus Unlimited", price: "US$44,99/năm" }
 ];
 
 const pains = [
@@ -92,22 +92,48 @@ export default function SolutionsLandingPage() {
           </div>
 
           <div className="solution-float relative">
-            <div className="rounded-[2rem] border border-white/15 bg-white/[0.07] p-4 shadow-2xl backdrop-blur-xl md:p-6">
-              <div className="mb-5 flex items-center justify-between">
-                <div><p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a8adff]">Chi phí tham khảo</p><p className="mt-1 text-xl font-bold">Các gói phổ biến</p></div>
-                <CircleDollarSign className="h-7 w-7 text-[#7c71ff]" />
+            <div className="overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.07] shadow-2xl backdrop-blur-xl">
+              <div className="border-b border-white/10 p-6 md:p-7">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a8adff]">Một quy trình thường gặp</p>
+                    <p className="mt-2 text-2xl font-bold">Dữ liệu đi qua nhiều chặng</p>
+                  </div>
+                  <DatabaseZap className="h-7 w-7 text-[#7c71ff]" />
+                </div>
+                <div className="mt-7 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-2 text-center text-sm font-bold">
+                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">File đầu vào</span>
+                  <ArrowRight className="h-4 w-4 text-[#777e9d]" />
+                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Xử lý tay</span>
+                  <ArrowRight className="h-4 w-4 text-[#777e9d]" />
+                  <span className="rounded-xl border border-white/10 bg-[#111328]/85 px-3 py-4">Báo cáo</span>
+                </div>
               </div>
-              <div className="grid gap-3">
-                {subscriptions.map((item, index) => (
-                  <div key={item.name} className="solution-price-row flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#111328]/85 p-4" style={{ animationDelay: `${index * 160}ms` }}>
-                    <div><p className="font-bold">{item.name}</p><p className="mt-1 text-xs text-[#9299b8]">{item.use}</p></div>
-                    <p className="shrink-0 text-sm font-bold text-[#c7c9ff]">{item.price}</p>
+
+              <div className="grid gap-3 p-6 md:grid-cols-2 md:p-7">
+                {[
+                  ["Copy – paste lặp lại", "Dễ lệch cột hoặc sai định dạng"],
+                  ["Phụ thuộc một người", "Khó bàn giao khi quy trình chỉ nằm trong trí nhớ"],
+                  ["Nhiều file trung gian", "Mất dấu phiên bản nào là bản cuối"],
+                  ["Đã mua phần mềm", "Vẫn thiếu đúng bước nghiệp vụ riêng"]
+                ].map(([title, text], index) => (
+                  <div key={title} className="solution-price-row rounded-xl border border-white/10 bg-[#111328]/65 p-4" style={{ animationDelay: `${index * 120}ms` }}>
+                    <p className="font-semibold">{title}</p>
+                    <p className="mt-1 text-xs leading-5 text-[#9299b8]">{text}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 rounded-2xl bg-gradient-to-r from-[#5548ff] to-[#8b5cf6] p-5">
-                <p className="text-sm font-bold text-white/75">Vấn đề không chỉ là giá thuê bao</p>
-                <p className="mt-2 text-xl font-bold">Mà là thời gian vẫn mất ở những bước phần mềm không hiểu nghiệp vụ của bạn.</p>
+
+              <div className="border-t border-white/10 bg-[#0d0f21]/80 px-6 py-4 md:px-7">
+                <div className="flex items-start gap-3">
+                  <CircleDollarSign className="mt-0.5 h-4 w-4 shrink-0 text-[#777e9d]" />
+                  <div className="text-[11px] leading-5 text-[#777e9d]">
+                    <p className="font-bold uppercase tracking-[0.14em]">Giá tham khảo của nền tảng khác — không phải báo giá dịch vụ của chúng tôi</p>
+                    <p className="mt-1">
+                      {subscriptions.map((item) => `${item.name}: ${item.price}`).join(" · ")}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

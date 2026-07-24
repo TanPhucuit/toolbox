@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight, CheckCircle2, ExternalLink, Monitor, PlayCircle } from "lucide-react";
+import { CheckCircle2, ExternalLink, Info, Monitor, PlayCircle } from "lucide-react";
 import type { CatalogTool } from "@/lib/catalog";
 import { InquiryForm } from "@/components/public/inquiry-form";
 import { formatPrice, formatVnd } from "@/lib/utils/format";
@@ -81,25 +81,48 @@ export default async function ToolDetailPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="mb-16">
-        <div className="mb-6 max-w-3xl">
-          <p className="text-sm font-bold uppercase tracking-wide text-primary">So sánh trước khi mua</p>
-          <h2 className="mt-2 text-3xl font-bold">Tính năng tương tự một phần, cách trả tiền thì khác</h2>
-          <p className="mt-3 leading-7 text-on-surface-variant">Giá đối thủ được dẫn từ trang chính thức và có thể thay đổi theo khu vực, thuế hoặc chương trình khuyến mãi. Đây không phải bảng khẳng định hai sản phẩm giống hệt nhau.</p>
-        </div>
-        <div className="grid gap-5 md:grid-cols-3">
-          <div className="rounded-2xl bg-primary p-6 text-white shadow-lg">
-            <p className="text-sm font-bold uppercase text-blue-100">tool box giá rẻ</p>
-            <p className="mt-4 text-3xl font-bold">{formatPrice(tool.price_type, tool.price_vnd, tool.price_label)}</p>
-            <p className="mt-3 text-sm leading-6 text-blue-50">{tool.price_type === "fixed" ? "Thanh toán một lần cho bản quyền vĩnh viễn." : "Không thu tiền phần mềm miễn phí hoặc sản phẩm chưa kiểm thử."}</p>
+      <section className="mb-16 overflow-hidden rounded-2xl border border-outline-variant bg-white">
+        <div className="grid gap-5 border-b border-outline-variant bg-surface-container-low p-6 md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <div className="max-w-3xl">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-on-surface-variant">Tham khảo thị trường</p>
+            <h2 className="mt-2 text-2xl font-bold md:text-3xl">Nếu bạn đang cân nhắc các nền tảng khác</h2>
+            <p className="mt-3 leading-7 text-on-surface-variant">
+              Chúng tôi chỉ đặt các mức thuê bao bên dưới làm mốc tham khảo. Tính năng của các sản phẩm không hoàn toàn giống nhau.
+            </p>
           </div>
-          {catalogTool.competitors.map((competitor) => (
-            <a key={competitor.name} href={competitor.sourceUrl} target="_blank" rel="noreferrer" className="stitch-card group block p-6 hover:border-primary">
-              <div className="flex items-start justify-between gap-3"><p className="font-bold">{competitor.name}</p><ArrowUpRight className="h-4 w-4 text-primary transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></div>
-              <p className="mt-4 text-xl font-bold text-primary">{competitor.price}</p>
-              <p className="mt-3 text-sm leading-6 text-on-surface-variant">{competitor.note}</p>
-            </a>
+          <div className="inline-flex max-w-sm items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+            <Info className="mt-0.5 h-4 w-4 shrink-0" />
+            <span><strong>Không phải giá của {tool.name}.</strong> Giá sản phẩm đang xem là mức đã ghi ở đầu trang.</span>
+          </div>
+        </div>
+
+        <div className="divide-y divide-outline-variant/70 px-6 md:px-8">
+          {catalogTool.competitors.map((competitor, index) => (
+            <div key={competitor.name} className="grid gap-3 py-5 md:grid-cols-[44px_1fr_210px] md:items-center md:gap-5">
+              <span className="hidden font-mono text-xs text-outline md:block">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <p className="font-semibold text-on-surface">{competitor.name}</p>
+                  <a href={competitor.sourceUrl} target="_blank" rel="noreferrer" className="text-xs font-semibold text-on-surface-variant underline decoration-outline-variant underline-offset-4">
+                    Xem nguồn
+                  </a>
+                </div>
+                <p className="mt-1 text-sm leading-6 text-on-surface-variant">{competitor.note}</p>
+              </div>
+              <p className="text-sm text-on-surface-variant md:text-right">
+                <span className="block text-[11px] font-bold uppercase tracking-wide text-outline">Giá nền tảng khác</span>
+                <span className="mt-1 block font-semibold">{competitor.price}</span>
+              </p>
+            </div>
           ))}
+        </div>
+
+        <div className="flex flex-col gap-2 border-t border-outline-variant bg-white px-6 py-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
+          <p className="text-sm text-on-surface-variant">Giá chính thức của sản phẩm này</p>
+          <p className="text-xl font-bold text-primary">
+            {formatPrice(tool.price_type, tool.price_vnd, tool.price_label)}
+            {tool.price_type === "fixed" ? <span className="ml-2 text-sm font-semibold text-on-surface-variant">• mua một lần</span> : null}
+          </p>
         </div>
       </section>
 
