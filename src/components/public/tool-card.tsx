@@ -8,8 +8,14 @@ import type { Category, Tool } from "@/types/database.types";
 export function ToolCard({
   tool
 }: {
-  tool: Tool & { categories?: Pick<Category, "name" | "slug"> };
+  tool: Tool & {
+    categories?: Pick<Category, "name" | "slug">;
+    tool_media?: { id: string; url: string; thumbnail_url: string | null; alt_text: string | null; media_type: string }[];
+  };
 }) {
+  const images = tool.tool_media?.filter((item) => item.media_type === "image") ?? [];
+  const primaryImage = images[0]?.url ?? tool.cover_image_url;
+  const secondaryImage = images[1]?.url;
   return (
     <article className="stitch-card group relative flex min-h-[430px] flex-col overflow-hidden transition-shadow">
       {tool.badge ? (
@@ -18,11 +24,17 @@ export function ToolCard({
         </span>
       ) : null}
       <Link href={`/tool/${tool.slug}`} className="relative block aspect-video overflow-hidden bg-surface-container">
-        {tool.cover_image_url ? (
-          <Image src={tool.cover_image_url} alt={tool.name} fill className="object-cover transition duration-300 group-hover:scale-[1.02]" />
+        {primaryImage ? (
+          <Image src={primaryImage} alt={images[0]?.alt_text ?? tool.name} fill className="object-cover transition duration-500 group-hover:scale-[1.025]" />
         ) : (
           <DynamicIcon name={tool.categories?.slug === "tai-lieu-pdf" ? "FileText" : "Images"} className="m-auto h-16 w-16 text-primary" />
         )}
+        {secondaryImage ? (
+          <span className="absolute bottom-3 right-3 block aspect-video w-28 overflow-hidden rounded-lg border-2 border-white bg-white shadow-lg">
+            <Image src={secondaryImage} alt="" fill className="object-cover" sizes="112px" />
+          </span>
+        ) : null}
+        {images.length && tool.slug !== "mapping-image-to-excel" ? <span className="absolute bottom-3 left-3 rounded-full bg-black/65 px-3 py-1 text-[11px] font-semibold text-white backdrop-blur">Ảnh demo thực tế</span> : null}
       </Link>
       <div className="flex flex-1 flex-col p-6">
       <p className="mb-2 text-xs font-bold uppercase tracking-wide text-primary">{tool.categories?.name}</p>

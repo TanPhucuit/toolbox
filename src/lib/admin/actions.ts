@@ -15,6 +15,10 @@ function value(formData: FormData, key: string) {
   return typeof item === "string" ? item : "";
 }
 
+function lines(formData: FormData, key: string) {
+  return value(formData, key).split("\n").map((item) => item.trim()).filter(Boolean);
+}
+
 function checkbox(formData: FormData, key: string) {
   return formData.get(key) === "on";
 }
@@ -144,6 +148,22 @@ export async function saveTool(formData: FormData) {
     ? await supabase.from("tools").update(row).eq("id", id).select("id,slug").single()
     : await supabase.from("tools").insert(row).select("id,slug").single();
   if (result.error) throw new Error("Không lưu được tool.");
+  const mediaUrls = lines(formData, "gallery_urls");
+  const { error: deleteMediaError } = await supabase.from("tool_media").delete().eq("tool_id", result.data.id);
+  if (deleteMediaError) throw new Error("Tool đã lưu nhưng chưa cập nhật được gallery.");
+  if (mediaUrls.length) {
+    const { error: mediaError } = await supabase.from("tool_media").insert(
+      mediaUrls.map((url, index) => ({
+        tool_id: result.data.id,
+        media_type: /\.(mp4|webm|mov)(\?.*)?$/i.test(url) ? "video" : "image",
+        url,
+        thumbnail_url: null,
+        alt_text: `${parsed.name} - ảnh demo ${index + 1}`,
+        sort_order: index
+      }))
+    );
+    if (mediaError) throw new Error("Tool đã lưu nhưng chưa cập nhật được gallery.");
+  }
   await log(id ? "update" : "create", "tool", result.data.id, row);
   revalidatePath("/");
   revalidatePath(`/tool/${result.data.slug}`);
@@ -211,6 +231,23 @@ export async function saveService(formData: FormData) {
     ? await supabase.from("services").update(parsed).eq("id", id).select("id,slug").single()
     : await supabase.from("services").insert(parsed).select("id,slug").single();
   if (result.error) throw new Error("Không lưu được dịch vụ.");
+  const galleryUrls = lines(formData, "gallery_urls");
+  if (galleryUrls.length) {
+    const { error: galleryError } = await supabase.from("content_blocks").upsert(
+      {
+        page_key: "service-gallery",
+        section_key: result.data.slug,
+        title: `Gallery ${parsed.title}`,
+        content: { urls: galleryUrls },
+        is_published: true,
+        sort_order: 0
+      },
+      { onConflict: "page_key,section_key" }
+    );
+    if (galleryError) throw new Error("Dịch vụ đã lưu nhưng chưa cập nhật được gallery.");
+  } else {
+    await supabase.from("content_blocks").delete().eq("page_key", "service-gallery").eq("section_key", result.data.slug);
+  }
   await log(id ? "update" : "create", "service", result.data.id, parsed);
   revalidatePath("/dich-vu");
   revalidatePath(`/dich-vu/${result.data.slug}`);
@@ -224,6 +261,7 @@ export async function deleteService(formData: FormData) {
   const { data } = await supabase.from("services").select("slug").eq("id", id).maybeSingle();
   const { error } = await supabase.from("services").delete().eq("id", id);
   if (error) throw new Error("Không xóa được dịch vụ.");
+  if (data?.slug) await supabase.from("content_blocks").delete().eq("page_key", "service-gallery").eq("section_key", data.slug);
   await log("delete", "service", id);
   revalidatePath("/dich-vu");
   if (data?.slug) revalidatePath(`/dich-vu/${data.slug}`);

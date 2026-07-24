@@ -2,13 +2,13 @@ import { notFound } from "next/navigation";
 import { StorageUpload } from "@/components/admin/storage-upload";
 import { ToolForm } from "@/components/admin/tool-form";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import type { Category, Tool } from "@/types/database.types";
+import type { Category, Tool, ToolMedia } from "@/types/database.types";
 
 export default async function EditToolPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createServerSupabaseClient();
   const [toolResult, categoryResult] = await Promise.all([
-    supabase.from("tools").select("*").eq("id", id).maybeSingle(),
+    supabase.from("tools").select("*,tool_media(*)").eq("id", id).maybeSingle(),
     supabase.from("categories").select("*").order("sort_order")
   ]);
   if (!toolResult.data) notFound();
@@ -20,7 +20,11 @@ export default async function EditToolPage({ params }: { params: Promise<{ id: s
         <p className="mt-2 text-on-surface-variant">Chỉnh phần cần sửa theo tab, preview bên phải sẽ cập nhật ngay.</p>
       </header>
       <StorageUpload />
-      <ToolForm tool={toolResult.data as Tool} categories={(categoryResult.data ?? []) as Category[]} />
+      <ToolForm
+        tool={toolResult.data as Tool}
+        media={((toolResult.data as { tool_media?: ToolMedia[] }).tool_media ?? []).sort((a, b) => a.sort_order - b.sort_order)}
+        categories={(categoryResult.data ?? []) as Category[]}
+      />
     </div>
   );
 }

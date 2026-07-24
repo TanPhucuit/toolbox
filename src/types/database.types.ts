@@ -67,6 +67,17 @@ export interface Tool {
   updated_at: string;
 }
 
+export interface ToolMedia {
+  id: string;
+  tool_id: string;
+  media_type: "image" | "video";
+  url: string;
+  thumbnail_url: string | null;
+  alt_text: string | null;
+  sort_order: number;
+  created_at: string;
+}
+
 export interface Service {
   id: string;
   title: string;

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { CheckCircle2, ExternalLink, Info, Monitor, PlayCircle } from "lucide-react";
+import { CheckCircle2, ExternalLink, Info, Monitor } from "lucide-react";
 import type { CatalogTool } from "@/lib/catalog";
 import { ProductActions } from "@/components/public/product-actions";
+import { ProductGallery } from "@/components/public/product-gallery";
 import { formatPrice, formatVnd } from "@/lib/utils/format";
 import { getSiteUrl } from "@/lib/supabase/env";
 import { getToolBySlug } from "@/lib/public-data";
@@ -33,28 +33,15 @@ export default async function ToolDetailPage({ params }: Props) {
   const faq = toFaq(tool.faq);
   const catalogTool = tool as CatalogTool;
   const cover = tool.cover_image_url!;
+  const media = tool.tool_media?.length
+    ? tool.tool_media
+    : [{ id: "cover", url: cover, thumbnail_url: cover, alt_text: tool.name, media_type: "image" }];
 
   return (
     <main className="container-shell py-8">
       <section className="mb-16 grid gap-6 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <div className="relative aspect-video overflow-hidden rounded-xl border border-outline-variant bg-surface-container shadow-sm">
-            <Image src={cover} alt={`Ảnh giao diện ${tool.name}`} fill className="object-cover" priority />
-            {tool.badge ? <span className="absolute left-4 top-4 rounded-full bg-error px-3 py-1 text-sm font-bold text-white">{tool.badge}</span> : null}
-          </div>
-          <div className="mt-4 grid grid-cols-4 gap-4">
-            {(tool.tool_media?.length ? tool.tool_media : [{ id: "cover", url: cover, thumbnail_url: cover, alt_text: tool.name, media_type: "image" }]).slice(0, 4).map((media, index) => (
-              <div key={media.id} className={`relative aspect-video overflow-hidden rounded-lg border ${index === 0 ? "border-2 border-primary" : "border-outline-variant opacity-80"}`}>
-                {media.media_type === "video" ? (
-                  <div className="flex h-full items-center justify-center bg-surface-container-high">
-                    <PlayCircle className="h-8 w-8 text-primary" />
-                  </div>
-                ) : (
-                  <Image src={media.thumbnail_url ?? media.url} alt={media.alt_text ?? tool.name} fill className="object-cover" />
-                )}
-              </div>
-            ))}
-          </div>
+          <ProductGallery media={media} productName={tool.name} badge={tool.badge} verified={!catalogTool.availabilityNote} />
         </div>
         <div className="lg:col-span-5">
           <p className="mb-3 text-sm font-bold uppercase tracking-wide text-primary">{tool.categories?.name}</p>

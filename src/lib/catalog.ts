@@ -15,6 +15,10 @@ export type CatalogTool = Tool & {
   availabilityNote?: string;
 };
 
+export type CatalogService = Service & {
+  gallery: { id: string; url: string; alt_text: string }[];
+};
+
 const now = "2026-07-24T00:00:00.000Z";
 
 export const defaultSettings: SiteSettings = {
@@ -61,6 +65,11 @@ export const catalogTools: CatalogTool[] = [
     ],
     requirements: ["Windows 10/11", "Microsoft Word", "File đầu vào .docx có hệ thống đánh số rõ ràng"],
     guide: ["Chọn file Word cần xử lý.", "Kiểm tra bộ quy tắc Heading và định dạng.", "Bấm xử lý, mở file kết quả và cập nhật mục lục trong Word."],
+    gallery: [
+      { id: "toc-app", url: "/products/auto-toc/app-dashboard.png", thumbnail_url: null, alt_text: "Giao diện thật của AutoCreate Table of Content", media_type: "image" },
+      { id: "toc-result", url: "/products/auto-toc/toc-result.png", thumbnail_url: null, alt_text: "Mục lục Word có số trang do tool tạo", media_type: "image" },
+      { id: "toc-cover", url: "/products/covers/auto-toc.svg", thumbnail_url: null, alt_text: "Tổng quan quy trình tạo mục lục", media_type: "image" }
+    ],
     competitors: [
       {
         name: "Microsoft 365 Personal",
@@ -99,6 +108,11 @@ export const catalogTools: CatalogTool[] = [
     ],
     requirements: ["Windows 64-bit", "GPU NVIDIA tương thích CUDA", "Internet ở lần cài/tải model đầu tiên"],
     guide: ["Nạp file giọng đã được phép sử dụng.", "Tách nền và nghe lại đoạn mẫu được chọn.", "Nhập nội dung, chọn giọng rồi xuất WAV."],
+    gallery: [
+      { id: "voice-cover", url: "/products/covers/clone-voice.svg", thumbnail_url: null, alt_text: "Quy trình clone giọng chạy local", media_type: "image" },
+      { id: "voice-reference", url: "/products/clone-voice/reference-spectrum.png", thumbnail_url: null, alt_text: "Phổ âm thanh mẫu tham chiếu thực tế", media_type: "image" },
+      { id: "voice-vocals", url: "/products/clone-voice/isolated-vocals-spectrum.png", thumbnail_url: null, alt_text: "Phổ giọng sau khi tách nền", media_type: "image" }
+    ],
     competitors: [
       {
         name: "ElevenLabs Creator",
@@ -137,6 +151,10 @@ export const catalogTools: CatalogTool[] = [
     ],
     requirements: ["Windows 10/11 64-bit", "Không cần upload tài liệu lên dịch vụ web"],
     guide: ["Chọn tác vụ tách, ghép, xuất ảnh/PPTX hoặc thêm chữ.", "Nạp file và đặt thứ tự/phạm vi trang.", "Xem lại thiết lập rồi dùng Save As để giữ file gốc."],
+    gallery: [
+      { id: "pdf-edit-app", url: "/products/pdf-edit/app-dashboard.png", thumbnail_url: null, alt_text: "Giao diện thật của PDF Edit trên Windows", media_type: "image" },
+      { id: "pdf-edit-cover", url: "/products/covers/pdf-edit.svg", thumbnail_url: null, alt_text: "Các tác vụ PDF chính", media_type: "image" }
+    ],
     competitors: [
       {
         name: "Adobe Acrobat Pro",
@@ -175,6 +193,11 @@ export const catalogTools: CatalogTool[] = [
     ],
     requirements: ["Windows 10/11", "Word hoặc LibreOffice cho chiều DOCX → PDF", "Tesseract nếu cần OCR"],
     guide: ["Chọn chiều chuyển đổi và nhiều file đầu vào.", "Chọn ưu tiên chỉnh sửa hoặc ưu tiên giữ bố cục.", "Chạy batch và kiểm tra file DOCX/PDF cùng báo cáo đầu ra."],
+    gallery: [
+      { id: "convert-app", url: "/products/convert-pdf-word/app-dashboard.png", thumbnail_url: null, alt_text: "Giao diện thật của công cụ chuyển PDF và Word", media_type: "image" },
+      { id: "convert-source", url: "/products/convert-pdf-word/source-pdf.png", thumbnail_url: null, alt_text: "Trang PDF gốc dùng để kiểm thử", media_type: "image" },
+      { id: "convert-result", url: "/products/convert-pdf-word/converted-result.png", thumbnail_url: null, alt_text: "Trang tài liệu sau khi chuyển đổi kiểm thử", media_type: "image" }
+    ],
     competitors: [
       {
         name: "Adobe Acrobat Standard",
@@ -230,7 +253,11 @@ export const catalogTools: CatalogTool[] = [
     ],
     gallery: [
       { id: "local-desktop", url: "/products/local-english/sets-desktop.png", thumbnail_url: null, alt_text: "Danh sách bộ từ Local English trên desktop", media_type: "image" },
-      { id: "local-mobile", url: "/products/local-english/sets-mobile.png", thumbnail_url: null, alt_text: "Thêm từ nhanh trên Local English mobile", media_type: "image" }
+      { id: "local-mobile", url: "/products/local-english/sets-mobile.png", thumbnail_url: null, alt_text: "Thêm từ nhanh trên Local English mobile", media_type: "image" },
+      { id: "local-dashboard", url: "/products/local-english/dashboard.png", thumbnail_url: null, alt_text: "Bảng điều khiển học tập Local English", media_type: "image" },
+      { id: "local-flashcards", url: "/products/local-english/flashcards.png", thumbnail_url: null, alt_text: "Chế độ Flashcard", media_type: "image" },
+      { id: "local-match", url: "/products/local-english/match-game.png", thumbnail_url: null, alt_text: "Trò chơi ghép thẻ Match", media_type: "image" },
+      { id: "local-progress", url: "/products/local-english/progress.png", thumbnail_url: null, alt_text: "Theo dõi tiến độ và lịch ôn", media_type: "image" }
     ],
     demoUrl: "https://flash-card-orpin-omega.vercel.app/sets",
     faq: [
@@ -259,6 +286,11 @@ export const catalogTools: CatalogTool[] = [
     ],
     requirements: ["Windows desktop", "Cấu hình phụ thuộc độ phân giải và codec dự án"],
     guide: ["Tạo dự án và import video/audio/ảnh.", "Kéo media xuống timeline, cắt và sắp xếp.", "Thêm text, phụ đề hoặc thu màn hình.", "Chọn codec, độ phân giải rồi export."],
+    gallery: [
+      { id: "clypra-home", url: "/products/clypra/home-screen.png", thumbnail_url: null, alt_text: "Màn hình tạo dự án mới của Clypra", media_type: "image" },
+      { id: "clypra-editor", url: "/products/clypra/editor-overview.png", thumbnail_url: null, alt_text: "Tổng quan trình dựng video Clypra", media_type: "image" },
+      { id: "clypra-cover", url: "/products/covers/video-editor.svg", thumbnail_url: null, alt_text: "Các chức năng dựng video chính", media_type: "image" }
+    ],
     competitors: [
       {
         name: "Adobe Premiere",
@@ -312,11 +344,11 @@ export const catalogTools: CatalogTool[] = [
   })
 ];
 
-export const catalogServices: Service[] = [
-  service("Thiết kế website bán hàng & giới thiệu dịch vụ", "lam-website", "Làm website responsive, nội dung rõ, có form nhận khách và bàn giao để bạn tự quản lý.", "Globe2", 10, ["Landing page hoặc website nhiều trang", "Tối ưu mobile/desktop và tốc độ", "Kết nối form, tên miền và nền tảng triển khai"]),
-  service("Tool nhập liệu hàng loạt cho kế toán", "tool-nhap-lieu-ke-toan", "Tự động đọc, chuẩn hóa và nhập dữ liệu từ Excel, PDF hoặc biểu mẫu theo quy trình kế toán thực tế.", "Table2", 20, ["Nhận file mẫu và quy tắc đối soát", "Xử lý theo batch, có log lỗi", "Ưu tiên dữ liệu local và khả năng kiểm tra lại"]),
-  service("Custom tool theo nhu cầu", "custom-tool-theo-nhu-cau", "Làm phần mềm Windows hoặc web app cho công việc lặp lại mà tool có sẵn chưa giải quyết đúng.", "Wrench", 30, ["Khảo sát workflow thật", "Chốt MVP và tiêu chí nghiệm thu", "Test với dữ liệu mẫu, bàn giao hướng dẫn"]),
-  service("Tự động hóa báo cáo & xử lý dữ liệu", "tu-dong-hoa-bao-cao", "Gộp file, làm sạch dữ liệu, đối soát và xuất báo cáo định kỳ cho vận hành, bán hàng hoặc kế toán.", "DatabaseZap", 40, ["Excel, CSV, PDF và dữ liệu xuất hệ thống", "Quy tắc xử lý có thể kiểm tra", "Xuất báo cáo cùng log ngoại lệ"])
+export const catalogServices: CatalogService[] = [
+  service("Thiết kế website bán hàng & giới thiệu dịch vụ", "lam-website", "Làm website responsive, nội dung rõ, có form nhận khách và bàn giao để bạn tự quản lý.", "/services/website-design.png", 10, ["Landing page hoặc website nhiều trang", "Tối ưu mobile/desktop và tốc độ", "Kết nối form, tên miền và nền tảng triển khai"]),
+  service("Tool nhập liệu hàng loạt cho kế toán", "tool-nhap-lieu-ke-toan", "Tự động đọc, chuẩn hóa và nhập dữ liệu từ Excel, PDF hoặc biểu mẫu theo quy trình kế toán thực tế.", "/services/accounting-automation.png", 20, ["Nhận file mẫu và quy tắc đối soát", "Xử lý theo batch, có log lỗi", "Ưu tiên dữ liệu local và khả năng kiểm tra lại"]),
+  service("Custom tool theo nhu cầu", "custom-tool-theo-nhu-cau", "Làm phần mềm Windows hoặc web app cho công việc lặp lại mà tool có sẵn chưa giải quyết đúng.", "/services/custom-tool.png", 30, ["Khảo sát workflow thật", "Chốt MVP và tiêu chí nghiệm thu", "Test với dữ liệu mẫu, bàn giao hướng dẫn"]),
+  service("Tự động hóa báo cáo & xử lý dữ liệu", "tu-dong-hoa-bao-cao", "Gộp file, làm sạch dữ liệu, đối soát và xuất báo cáo định kỳ cho vận hành, bán hàng hoặc kế toán.", "/services/report-automation.png", 40, ["Excel, CSV, PDF và dữ liệu xuất hệ thống", "Quy tắc xử lý có thể kiểm tra", "Xuất báo cáo cùng log ngoại lệ"])
 ];
 
 export function findTool(slug: string) {
@@ -354,13 +386,17 @@ function tool(input: {
   };
 }
 
-function service(title: string, slug: string, short: string, icon: string, sort: number, features: string[]): Service {
+function service(title: string, slug: string, short: string, cover: string, sort: number, features: string[]): CatalogService {
   return {
     id: `99999999-9999-4999-8999-${String(sort).padStart(12, "0")}`, title, slug, short_description: short,
-    description_markdown: short, icon_name: icon, cover_image_url: null, price_label: "Liên hệ báo giá",
+    description_markdown: short, icon_name: null, cover_image_url: cover, price_label: "Liên hệ báo giá",
     features: features.map((text) => ({ text })), process_steps: ["Gửi nhu cầu và file mẫu", "Chốt phạm vi, thời gian và chi phí", "Làm bản thử, kiểm tra và bàn giao"].map((text) => ({ text })),
     faq: [{ question: "Có báo giá ngay được không?", answer: "Cần xem workflow và dữ liệu mẫu để tránh báo thiếu phạm vi." }],
     primary_cta_label: "Trao đổi nhu cầu", seo_title: `${title} - tool box giá rẻ`, seo_description: short,
-    is_featured: sort <= 30, is_published: true, sort_order: sort, created_at: now, updated_at: now
+    is_featured: sort <= 30, is_published: true, sort_order: sort, created_at: now, updated_at: now,
+    gallery: [
+      { id: `${slug}-main`, url: cover, alt_text: `Minh họa quy trình ${title}` },
+      { id: `${slug}-related`, url: sort === 10 ? "/services/custom-tool.png" : sort === 20 ? "/services/report-automation.png" : sort === 30 ? "/services/website-design.png" : "/services/accounting-automation.png", alt_text: `Minh họa đầu ra và cách triển khai ${title}` }
+    ]
   };
 }

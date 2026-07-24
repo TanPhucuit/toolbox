@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { Check, FileText, ImageIcon, Info, ListPlus, Monitor, Save, Sparkles } from "lucide-react";
 import { saveService, saveTool } from "@/lib/admin/actions";
-import type { Category, Service, Tool } from "@/types/database.types";
+import type { Category, Service, Tool, ToolMedia } from "@/types/database.types";
 
 type TabKey = "basic" | "content" | "media" | "advanced";
 
@@ -14,7 +15,7 @@ const tabs: { key: TabKey; label: string; icon: typeof Info }[] = [
   { key: "advanced", label: "Nâng cao", icon: Monitor }
 ];
 
-export function ToolForm({ tool, categories }: { tool?: Partial<Tool>; categories: Category[] }) {
+export function ToolForm({ tool, categories, media = [] }: { tool?: Partial<Tool>; categories: Category[]; media?: ToolMedia[] }) {
   const isEditing = Boolean(tool?.id);
   const [activeTab, setActiveTab] = useState<TabKey>("basic");
   const [slugEdited, setSlugEdited] = useState(isEditing);
@@ -32,6 +33,7 @@ export function ToolForm({ tool, categories }: { tool?: Partial<Tool>; categorie
     badge: tool?.badge ?? "",
     category_id: tool?.category_id ?? "",
     cover_image_url: tool?.cover_image_url ?? "",
+    gallery_urls: media.map((item) => item.url).join("\n"),
     icon_url: tool?.icon_url ?? "",
     tutorial_video_url: tool?.tutorial_video_url ?? "",
     demo_url: tool?.demo_url ?? "",
@@ -179,6 +181,7 @@ export function ToolForm({ tool, categories }: { tool?: Partial<Tool>; categorie
             <Field name="tutorial_video_url" label="URL video hướng dẫn" value={form.tutorial_video_url} onChange={(event) => update("tutorial_video_url", event.target.value)} />
             <Field name="demo_url" label="Demo URL" value={form.demo_url} onChange={(event) => update("demo_url", event.target.value)} />
           </div>
+          <TextList name="gallery_urls" label="Gallery ảnh/video — mỗi dòng một URL" value={form.gallery_urls} onChange={(value) => update("gallery_urls", value)} />
         </Panel>
 
         <Panel active={activeTab === "advanced"}>
@@ -223,7 +226,7 @@ export function ToolForm({ tool, categories }: { tool?: Partial<Tool>; categorie
   );
 }
 
-export function ServiceForm({ service }: { service?: Partial<Service> }) {
+export function ServiceForm({ service, galleryUrls = [] }: { service?: Partial<Service>; galleryUrls?: string[] }) {
   const isEditing = Boolean(service?.id);
   const [activeTab, setActiveTab] = useState<TabKey>("basic");
   const [slugEdited, setSlugEdited] = useState(isEditing);
@@ -234,6 +237,7 @@ export function ServiceForm({ service }: { service?: Partial<Service> }) {
     description_markdown: service?.description_markdown ?? "",
     icon_name: service?.icon_name ?? "",
     cover_image_url: service?.cover_image_url ?? "",
+    gallery_urls: galleryUrls.join("\n"),
     price_label: service?.price_label ?? "Liên hệ báo giá",
     primary_cta_label: service?.primary_cta_label ?? "Yêu cầu tư vấn",
     features: jsonToLines(service?.features),
@@ -312,11 +316,9 @@ export function ServiceForm({ service }: { service?: Partial<Service> }) {
           <TextList name="faq" label="FAQ" value={form.faq} onChange={(value) => update("faq", value)} />
         </Panel>
         <Panel active={activeTab === "media"}>
-          <SectionIntro title="Media" description="Dùng URL sau khi upload ảnh/video từ khối upload trên trang." />
-          <div className="grid gap-4 md:grid-cols-2">
-            <Field name="icon_name" label="Tên icon Lucide" value={form.icon_name} onChange={(event) => update("icon_name", event.target.value)} />
-            <Field name="cover_image_url" label="Cover image URL" value={form.cover_image_url} onChange={(event) => update("cover_image_url", event.target.value)} />
-          </div>
+          <SectionIntro title="Ảnh dịch vụ" description="Cover dùng ở danh sách; gallery dùng trên trang chi tiết. Mỗi dòng là một URL sau khi upload." />
+          <Field name="cover_image_url" label="Cover image URL" value={form.cover_image_url} onChange={(event) => update("cover_image_url", event.target.value)} />
+          <TextList name="gallery_urls" label="Gallery ảnh — mỗi dòng một URL" value={form.gallery_urls} onChange={(value) => update("gallery_urls", value)} />
         </Panel>
         <Panel active={activeTab === "advanced"}>
           <SectionIntro title="SEO và trạng thái" description="Chỉ cần chỉnh khi chuẩn bị publish hoặc tối ưu SEO." />
@@ -332,9 +334,13 @@ export function ServiceForm({ service }: { service?: Partial<Service> }) {
       <aside className="h-fit rounded-lg border border-outline-variant bg-white p-5 xl:sticky xl:top-6">
         <p className="text-xs font-bold uppercase text-primary">Preview dịch vụ</p>
         <div className="mt-4 rounded-lg border border-outline-variant bg-surface-container-lowest p-5">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-secondary-container text-primary">
-            <Sparkles className="h-5 w-5" />
-          </span>
+          {form.cover_image_url ? (
+            <div className="relative mb-4 aspect-video overflow-hidden rounded-lg bg-surface-container">
+              <Image src={form.cover_image_url} alt="" fill unoptimized className="object-cover" />
+            </div>
+          ) : (
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-secondary-container text-primary"><Sparkles className="h-5 w-5" /></span>
+          )}
           <h2 className="mt-4 text-2xl font-bold">{form.title || "Tên dịch vụ"}</h2>
           <p className="mt-3 min-h-16 text-sm leading-6 text-on-surface-variant">{form.short_description || "Mô tả ngắn sẽ hiển thị tại đây."}</p>
           <p className="mt-4 font-bold text-primary">{form.price_label}</p>

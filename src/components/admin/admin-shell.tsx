@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { FileText, Inbox, Layers3, LayoutDashboard, LogOut, Package, Settings, Tags } from "lucide-react";
+import { FileText, Inbox, Layers3, LayoutDashboard, LogOut, MonitorPlay, Package, Settings, Tags } from "lucide-react";
 import { logoutAdmin } from "@/lib/admin/actions";
 
 const nav = [
   { href: "/admin", label: "Tổng quan", icon: LayoutDashboard },
+  { href: "/admin/preview", label: "Preview website", icon: MonitorPlay },
   { href: "/admin/tools", label: "Tools", icon: Package },
   { href: "/admin/services", label: "Dịch vụ", icon: Layers3 },
   { href: "/admin/categories", label: "Danh mục", icon: Tags },
