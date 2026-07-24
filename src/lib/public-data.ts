@@ -57,8 +57,8 @@ export async function getCategories() {
       ? rows
       : catalogCategories;
   } catch (error) {
-    if (isMissingSupabaseEnv(error)) return catalogCategories;
-    throw error;
+    reportCatalogFallback("categories", error);
+    return catalogCategories;
   }
 }
 
@@ -85,7 +85,7 @@ export async function getToolBySlug(slug: string) {
     if (data) return mergeTool(data as unknown as ToolRow);
     if (await databaseCatalogIsActive("tools")) notFound();
   } catch (error) {
-    if (!isMissingSupabaseEnv(error)) throw error;
+    reportCatalogFallback(`tool:${slug}`, error);
   }
   const fallback = findTool(slug);
   if (!fallback) notFound();
@@ -101,8 +101,8 @@ export async function getServices() {
     if (!rows.some((row) => canonicalServiceSlugs.has(row.slug))) return catalogServices;
     return rows.map((row) => mergeService(row));
   } catch (error) {
-    if (isMissingSupabaseEnv(error)) return catalogServices;
-    throw error;
+    reportCatalogFallback("services", error);
+    return catalogServices;
   }
 }
 
@@ -118,7 +118,7 @@ export async function getServiceBySlug(slug: string) {
     if (data) return mergeService(data as ServiceRow, readGalleryUrls(galleryResult.data?.content));
     if (await databaseCatalogIsActive("services")) notFound();
   } catch (error) {
-    if (!isMissingSupabaseEnv(error)) throw error;
+    reportCatalogFallback(`service:${slug}`, error);
   }
   const fallback = findService(slug);
   if (!fallback) notFound();
@@ -140,8 +140,8 @@ async function loadPublishedTools(): Promise<Array<CatalogTool & { tool_media: T
     }
     return rows.map(mergeTool);
   } catch (error) {
-    if (isMissingSupabaseEnv(error)) return catalogTools.map((tool) => ({ ...tool, tool_media: tool.gallery }));
-    throw error;
+    reportCatalogFallback("tools", error);
+    return catalogTools.map((tool) => ({ ...tool, tool_media: tool.gallery }));
   }
 }
 
@@ -214,4 +214,9 @@ function readGalleryUrls(value: unknown): string[] {
 
 function isMissingSupabaseEnv(error: unknown) {
   return error instanceof Error && error.message.includes("Missing Supabase public env");
+}
+
+function reportCatalogFallback(scope: string, error: unknown) {
+  if (isMissingSupabaseEnv(error)) return;
+  console.error(`[public-data] Supabase ${scope} failed; using bundled catalog.`, error);
 }
