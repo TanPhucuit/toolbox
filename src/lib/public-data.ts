@@ -1,13 +1,18 @@
 import "server-only";
 
 import { notFound } from "next/navigation";
+import {
+  catalogCategories,
+  catalogServices,
+  catalogTools,
+  defaultSettings,
+  findService,
+  findTool
+} from "@/lib/catalog";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type {
-  Category,
   ContentBlock,
-  Service,
-  SiteSettings,
-  Tool
+  SiteSettings
 } from "@/types/database.types";
 
 type QueryFilters = {
@@ -19,9 +24,9 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
   try {
     const supabase = await createServerSupabaseClient();
     const { data } = await supabase.from("site_settings").select("*").eq("id", 1).maybeSingle();
-    return data as SiteSettings | null;
+    return data ? ({ ...defaultSettings, ...(data as SiteSettings) }) : defaultSettings;
   } catch (error) {
-    if (isMissingSupabaseEnv(error)) return null;
+    if (isMissingSupabaseEnv(error)) return defaultSettings;
     throw error;
   }
 }
@@ -44,92 +49,32 @@ export async function getContentBlock(pageKey: string, sectionKey: string) {
 }
 
 export async function getCategories() {
-  try {
-    const supabase = await createServerSupabaseClient();
-    const { data } = await supabase
-      .from("categories")
-      .select("*")
-      .eq("is_published", true)
-      .order("sort_order");
-    return (data ?? []) as Category[];
-  } catch (error) {
-    if (isMissingSupabaseEnv(error)) return [];
-    throw error;
-  }
+  return catalogCategories;
 }
 
 export async function getTools(filters: QueryFilters = {}) {
-  try {
-    const supabase = await createServerSupabaseClient();
-    let query = supabase
-      .from("tools")
-      .select("*, categories(name, slug)")
-      .eq("is_published", true)
-      .order("is_featured", { ascending: false })
-      .order("sort_order", { ascending: true });
-
-    if (filters.q) {
-      query = query.or(
-        `name.ilike.%${filters.q}%,short_description.ilike.%${filters.q}%`
-      );
-    }
-
-    if (filters.category) {
-      const categories = await getCategories();
-      const matched = categories.find((category) => category.slug === filters.category);
-      if (!matched) return [];
-      query = query.eq("category_id", matched.id);
-    }
-
-    const { data } = await query;
-    return (data ?? []) as (Tool & { categories?: Pick<Category, "name" | "slug"> })[];
-  } catch (error) {
-    if (isMissingSupabaseEnv(error)) return [];
-    throw error;
-  }
+  const query = filters.q?.trim().toLocaleLowerCase("vi") ?? "";
+  return catalogTools.filter((tool) => {
+    const matchesQuery = !query || `${tool.name} ${tool.short_description}`.toLocaleLowerCase("vi").includes(query);
+    const matchesCategory = !filters.category || tool.categories.slug === filters.category;
+    return matchesQuery && matchesCategory;
+  });
 }
 
 export async function getToolBySlug(slug: string) {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase
-    .from("tools")
-    .select("*, categories(name, slug), tool_media(*)")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .maybeSingle();
-  if (!data) notFound();
-  return data as Tool & {
-    categories?: Pick<Category, "name" | "slug">;
-    tool_media?: { id: string; url: string; thumbnail_url: string | null; alt_text: string | null; media_type: string }[];
-  };
+  const tool = findTool(slug);
+  if (!tool) notFound();
+  return { ...tool, tool_media: tool.gallery };
 }
 
 export async function getServices() {
-  try {
-    const supabase = await createServerSupabaseClient();
-    const { data } = await supabase
-      .from("services")
-      .select("*")
-      .eq("is_published", true)
-      .order("is_featured", { ascending: false })
-      .order("sort_order");
-    return (data ?? []) as Service[];
-  } catch (error) {
-    if (isMissingSupabaseEnv(error)) return [];
-    throw error;
-  }
+  return catalogServices;
 }
 
 export async function getServiceBySlug(slug: string) {
-  const supabase = await createServerSupabaseClient();
-  const { data } = await supabase
-    .from("services")
-    .select("*")
-    .eq("slug", slug)
-    .eq("is_published", true)
-    .maybeSingle();
-  if (!data) notFound();
-  return data as Service;
+  const service = findService(slug);
+  if (!service) notFound();
+  return service;
 }
 
 function isMissingSupabaseEnv(error: unknown) {

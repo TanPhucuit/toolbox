@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#10121a"/><rect x="70" y="70" width="1060" height="535" rx="28" fill="#1d2230" stroke="#4f46e5" stroke-width="3"/>
+  <rect x="110" y="110" width="650" height="270" rx="16" fill="#292f42"/><path d="m385 185 150 60-150 60z" fill="#8b80ff"/>
+  <rect x="110" y="425" width="950" height="35" rx="9" fill="#4f46e5"/><rect x="110" y="480" width="480" height="35" rx="9" fill="#e11d48"/><rect x="610" y="480" width="450" height="35" rx="9" fill="#14b8a6"/>
+  <text x="810" y="190" font-family="Arial,sans-serif" font-size="58" font-weight="800" fill="#fff">CLYPRA</text><text x="810" y="250" font-family="Arial,sans-serif" font-size="32" fill="#b8bfd1">VIDEO EDITOR</text>
+</svg>

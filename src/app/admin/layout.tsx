@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Admin - ToolBox Việt",
+  title: "Admin - tool box giá rẻ",
   robots: { index: false, follow: false }
 };
 

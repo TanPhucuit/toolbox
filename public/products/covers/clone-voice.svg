@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#15113f"/><stop offset="1" stop-color="#3928dc"/></linearGradient></defs><rect width="1200" height="675" fill="url(#g)"/>
+  <g fill="#fff"><rect x="85" y="235" width="22" height="205" rx="11"/><rect x="130" y="180" width="22" height="315" rx="11"/><rect x="175" y="265" width="22" height="145" rx="11"/><rect x="220" y="130" width="22" height="415" rx="11"/><rect x="265" y="215" width="22" height="245" rx="11"/><rect x="310" y="285" width="22" height="105" rx="11"/></g>
+  <text x="405" y="270" font-family="Arial,sans-serif" font-size="74" font-weight="800" fill="#fff">CLONE VOICE</text><text x="405" y="345" font-family="Arial,sans-serif" font-size="42" font-weight="700" fill="#bfc4ff">CHẠY LOCAL</text>
+  <text x="405" y="420" font-family="Arial,sans-serif" font-size="28" fill="#fff">Tách nền • chọn giọng sạch • xuất WAV</text>
+</svg>

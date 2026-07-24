@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getSiteUrl();
   return [
     { url: `${base}/`, lastModified: new Date() },
-    { url: `${base}/landing`, lastModified: new Date() },
+    { url: `${base}/giai-phap`, lastModified: new Date() },
     { url: `${base}/dich-vu`, lastModified: new Date() },
     { url: `${base}/lien-he`, lastModified: new Date() },
     { url: `${base}/chinh-sach-bao-mat`, lastModified: new Date() },

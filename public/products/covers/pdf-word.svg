@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#f5f7ff"/><rect x="100" y="120" width="310" height="430" rx="25" fill="#dc2626"/><text x="155" y="370" font-family="Arial,sans-serif" font-size="88" font-weight="900" fill="#fff">PDF</text>
+  <path d="M465 337h235m-45-55 55 55-55 55" fill="none" stroke="#3928dc" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="770" y="120" width="310" height="430" rx="25" fill="#2563eb"/><text x="835" y="370" font-family="Arial,sans-serif" font-size="86" font-weight="900" fill="#fff">DOCX</text>
+</svg>

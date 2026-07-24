@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#f3faf6"/><rect x="95" y="135" width="380" height="405" rx="25" fill="#fff" stroke="#94a3b8" stroke-width="5"/><circle cx="210" cy="250" r="48" fill="#fbbf24"/><path d="m130 470 105-120 75 80 65-70 70 110z" fill="#60a5fa"/>
+  <path d="M520 337h150" stroke="#16a34a" stroke-width="22" stroke-linecap="round"/><path d="m625 285 55 52-55 52" fill="none" stroke="#16a34a" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="745" y="135" width="360" height="405" rx="25" fill="#107c41"/><path d="M790 235h270M790 315h270M790 395h270M880 175v325M970 175v325" stroke="#fff" stroke-width="12" opacity=".8"/>
+  <text x="745" y="610" font-family="Arial,sans-serif" font-size="31" font-weight="700" fill="#166534">ĐANG KIỂM THỬ • CHƯA MỞ BÁN</text>
+</svg>

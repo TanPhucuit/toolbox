@@ -1,27 +1,17 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { MessageCircle, Search, Wrench } from "lucide-react";
 import type { SiteSettings } from "@/types/database.types";
 
-const logo =
-  "https://lh3.googleusercontent.com/aida/AP1WRLuLJMd_E6_TejOQM6VJdENonxjzAaRlyUafPVTiTLrhwtbYYfEWXnUknk0c2pIS9TJ-RJpSa7eWgSYnFEveDzLsxtwlM8AYiLdBVDqVozJtr402tDbsDa57OgGSajiB-P1mRT8RwXr7S6096va7Si2Cm-j-tJw1LPex4RxKBWI9iKMJsmgCVovRol9rDry3AZzKF4R62eDNJdaNdJtfu1gzjgxlkP1VrNSDmPLJGxzpwt_MwJX_mcHxwA";
-
-const defaultBrand = "toolbox giá rẻ";
+const defaultBrand = "tool box giá rẻ";
 
 export function SiteHeader({ settings }: { settings: SiteSettings | null }) {
   const brandName = normalizeBrandName(settings?.brand_name);
   return (
     <header className="sticky top-0 z-50 border-b border-outline-variant bg-surface shadow-sm">
       <div className="container-shell flex h-20 items-center justify-between gap-4">
-        <Link href="/landing" className="flex items-center gap-3">
-          <Image
-            src={settings?.logo_url ?? logo}
-            alt={brandName}
-            width={40}
-            height={40}
-            className="h-10 w-10 rounded-md object-contain"
-          />
-          <span className="text-xl font-bold text-primary">{brandName}</span>
+        <Link href="/" className="flex min-w-0 items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white"><Wrench className="h-5 w-5" /></span>
+          <span className="truncate text-lg font-bold text-primary sm:text-xl">{brandName}</span>
         </Link>
         <nav className="hidden items-center gap-4 md:flex" aria-label="Điều hướng chính">
           <Link className="rounded-md px-3 py-2 text-sm font-semibold text-primary" href="/">
@@ -32,6 +22,12 @@ export function SiteHeader({ settings }: { settings: SiteSettings | null }) {
             href="/dich-vu"
           >
             Dịch vụ
+          </Link>
+          <Link
+            className="rounded-md px-3 py-2 text-sm font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-primary"
+            href="/giai-phap"
+          >
+            Giải pháp
           </Link>
           <Link
             className="rounded-md px-3 py-2 text-sm font-semibold text-on-surface-variant hover:bg-surface-container-low hover:text-primary"
@@ -48,6 +44,9 @@ export function SiteHeader({ settings }: { settings: SiteSettings | null }) {
             placeholder="Tìm kiếm tool, tính năng..."
           />
         </form>
+        <a href={settings?.zalo_url ?? "https://zalo.me/0583790873"} target="_blank" rel="noreferrer" className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-4 text-sm font-bold text-white">
+          <MessageCircle className="h-4 w-4" /><span className="hidden lg:inline">Zalo</span>
+        </a>
       </div>
     </header>
   );
@@ -56,6 +55,6 @@ export function SiteHeader({ settings }: { settings: SiteSettings | null }) {
 function normalizeBrandName(value: string | null | undefined) {
   const text = value?.trim();
   if (!text) return defaultBrand;
-  if (text.toLowerCase().includes("toolbox vi") || text.includes("ToolBox")) return defaultBrand;
+  if (text.toLowerCase().startsWith("toolbox")) return defaultBrand;
   return text;
 }

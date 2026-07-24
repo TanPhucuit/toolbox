@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { SiteSettings } from "@/types/database.types";
 
-const defaultBrand = "toolbox giá rẻ";
+const defaultBrand = "tool box giá rẻ";
 
 export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
   const brandName = normalizeBrandName(settings?.brand_name);
@@ -18,9 +18,10 @@ export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
         <div>
           <h2 className="mb-4 text-sm font-bold text-on-surface">Liên kết</h2>
           <ul className="space-y-2 text-sm text-on-surface-variant">
-            <li><Link href="/landing">Landing page</Link></li>
+            <li><Link href="/giai-phap">Giải pháp</Link></li>
             <li><Link href="/">Cửa hàng</Link></li>
             <li><Link href="/dich-vu">Dịch vụ</Link></li>
+            <li><Link href="/giai-phap">Giải pháp cho doanh nghiệp</Link></li>
             <li><Link href="/chinh-sach-bao-mat">Chính sách bảo mật</Link></li>
             <li><Link href="/dieu-khoan-su-dung">Điều khoản sử dụng</Link></li>
           </ul>
@@ -29,6 +30,7 @@ export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
           <h2 className="mb-4 text-sm font-bold text-on-surface">Liên hệ</h2>
           <ul className="space-y-2 text-sm text-on-surface-variant">
             {settings?.support_phone ? <li>{settings.support_phone}</li> : null}
+            {settings?.zalo_url ? <li><a href={settings.zalo_url} target="_blank" rel="noreferrer">Zalo: {settings.support_phone ?? "toolboxgr"}</a></li> : null}
             {settings?.support_email ? <li>{settings.support_email}</li> : null}
             {settings?.address ? <li>{settings.address}</li> : null}
             {!settings?.support_phone && !settings?.support_email && !settings?.address ? (
@@ -44,6 +46,6 @@ export function SiteFooter({ settings }: { settings: SiteSettings | null }) {
 function normalizeBrandName(value: string | null | undefined) {
   const text = value?.trim();
   if (!text) return defaultBrand;
-  if (text.toLowerCase().includes("toolbox vi") || text.includes("ToolBox")) return defaultBrand;
+  if (text.toLowerCase().startsWith("toolbox")) return defaultBrand;
   return text;
 }

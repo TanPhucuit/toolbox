@@ -1,6 +1,6 @@
-# ToolBox Việt
+# tool box giá rẻ
 
-Website giới thiệu và bán tool Windows, phần mềm EXE và dịch vụ phát triển phần mềm tùy chỉnh. Public website không có đăng nhập khách hàng, không có giỏ hàng, không checkout. Admin chỉ truy cập qua `/admin`.
+Website giới thiệu các tool thực tế trong workspace và dịch vụ làm website, tool nhập liệu kế toán, tự động hóa dữ liệu, phần mềm theo yêu cầu. Public website không có giỏ hàng/checkout; khách liên hệ qua Zalo `0583790873` (`toolboxgr`) hoặc form. Admin truy cập qua `/admin`.
 
 ## Tech stack
 
@@ -70,7 +70,9 @@ Migration tạo bucket public `site-assets` với giới hạn 5MB, MIME type PN
 
 ## Chức năng chính
 
-- Public: danh sách tool, tìm kiếm, lọc danh mục, chi tiết tool, danh sách/chi tiết dịch vụ, trang liên hệ, chính sách, điều khoản, form tư vấn.
+- Public: danh mục 7 dự án, giá/giới hạn/đối thủ, hướng dẫn, ảnh thật Local English, landing `/giai-phap`, danh sách dịch vụ, liên hệ, chính sách và form tư vấn.
+- Catalog công khai nằm tại `src/lib/catalog.ts` để production không hiển thị mock khi Supabase chưa áp migration.
+- Migration `202607240001_replace_mock_catalog.sql` xóa catalog mẫu cũ và đồng bộ sản phẩm, dịch vụ, thương hiệu cùng Zalo vào CMS.
 - Admin: CRUD tools, services, categories, content blocks, settings; xem/cập nhật inquiries; upload ảnh site-assets.
 - Inquiry route: Zod validation server-side, honeypot, minimum completion time, max body size, hash IP bằng `INQUIRY_RATE_LIMIT_SALT`, rate limit 5 yêu cầu/15 phút.
 - SEO: dynamic metadata, robots, sitemap không gồm admin/draft/unpublished.
