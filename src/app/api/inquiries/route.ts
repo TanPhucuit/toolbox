@@ -7,7 +7,7 @@ export const runtime = "nodejs";
 
 const MAX_BODY_BYTES = 12_000;
 const WINDOW_MS = 15 * 60 * 1000;
-const LIMIT = 5;
+const LIMIT = 30;
 
 export async function POST(request: NextRequest) {
   const contentLength = Number(request.headers.get("content-length") ?? 0);
