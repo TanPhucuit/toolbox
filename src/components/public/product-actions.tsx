@@ -10,6 +10,7 @@ type Props = {
   productName: string;
   priceText: string;
   sourcePage: string;
+  toolId?: string | null;
   availabilityNote?: string;
 };
 
@@ -17,6 +18,7 @@ export function ProductActions({
   productName,
   priceText,
   sourcePage,
+  toolId,
   availabilityNote
 }: Props) {
   const [mode, setMode] = useState<ActionMode>(null);
@@ -98,7 +100,7 @@ export function ProductActions({
                 <p className="mb-6 mt-3 leading-7 text-on-surface-variant">
                   Điền nhu cầu hoặc tình trạng file thực tế. Chúng tôi sẽ liên hệ lại với hướng xử lý phù hợp.
                 </p>
-                <InquiryForm inquiryType="tool" sourcePage={sourcePage} />
+                <InquiryForm inquiryType="tool" toolId={toolId} sourcePage={sourcePage} />
               </div>
             )}
           </section>

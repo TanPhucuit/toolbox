@@ -66,6 +66,7 @@ export default async function ToolDetailPage({ params }: Props) {
             productName={tool.name}
             priceText={formatPrice(tool.price_type, tool.price_vnd, tool.price_label)}
             sourcePage={`/tool/${tool.slug}`}
+            toolId={tool.id}
             availabilityNote={catalogTool.availabilityNote}
           />
         </div>

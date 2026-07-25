@@ -32,38 +32,15 @@ export async function POST(request: NextRequest) {
   }
 
   const ip = getIp(request);
-  const salt = process.env.INQUIRY_RATE_LIMIT_SALT;
-  if (!salt) {
-    return NextResponse.json({ error: "SERVER_NOT_CONFIGURED" }, { status: 500 });
-  }
+  const salt = getRateLimitSalt();
   const ipHash = createHash("sha256").update(`${salt}:${ip}`).digest("hex");
   const supabase = createAdminSupabaseClient();
 
-  const { data: current } = await supabase
-    .from("inquiry_rate_limits")
-    .select("*")
-    .eq("ip_hash", ipHash)
-    .maybeSingle();
-
   const now = Date.now();
-  if (current) {
-    const started = new Date(current.window_started_at as string).getTime();
-    if (now - started < WINDOW_MS && Number(current.request_count) >= LIMIT) {
-      return NextResponse.json({ error: "RATE_LIMITED" }, { status: 429 });
-    }
-    await supabase.from("inquiry_rate_limits").upsert({
-      ip_hash: ipHash,
-      window_started_at: now - started >= WINDOW_MS ? new Date().toISOString() : current.window_started_at,
-      request_count: now - started >= WINDOW_MS ? 1 : Number(current.request_count) + 1
-    });
-  } else {
-    await supabase.from("inquiry_rate_limits").insert({ ip_hash: ipHash });
+  const rateLimit = await checkRateLimit(supabase, ipHash, now);
+  if (!rateLimit.ok) {
+    return NextResponse.json({ error: "RATE_LIMITED" }, { status: 429 });
   }
-
-  await supabase
-    .from("inquiry_rate_limits")
-    .delete()
-    .lt("window_started_at", new Date(now - WINDOW_MS * 4).toISOString());
 
   const { error } = await supabase.from("inquiries").insert({
     inquiry_type: parsed.data.inquiry_type,
@@ -84,6 +61,60 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
+}
+
+function getRateLimitSalt() {
+  return (
+    process.env.INQUIRY_RATE_LIMIT_SALT ||
+    process.env.SUPABASE_SECRET_KEY ||
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    "toolbox-inquiry-rate-limit"
+  );
+}
+
+async function checkRateLimit(
+  supabase: ReturnType<typeof createAdminSupabaseClient>,
+  ipHash: string,
+  now: number
+) {
+  try {
+    const { data: current, error: readError } = await supabase
+      .from("inquiry_rate_limits")
+      .select("*")
+      .eq("ip_hash", ipHash)
+      .maybeSingle();
+
+    if (readError) {
+      console.error("Inquiry rate-limit read failed", readError);
+      return { ok: true };
+    }
+
+    if (current) {
+      const started = new Date(current.window_started_at as string).getTime();
+      if (now - started < WINDOW_MS && Number(current.request_count) >= LIMIT) {
+        return { ok: false };
+      }
+      const { error: upsertError } = await supabase.from("inquiry_rate_limits").upsert({
+        ip_hash: ipHash,
+        window_started_at: now - started >= WINDOW_MS ? new Date().toISOString() : current.window_started_at,
+        request_count: now - started >= WINDOW_MS ? 1 : Number(current.request_count) + 1
+      });
+      if (upsertError) console.error("Inquiry rate-limit upsert failed", upsertError);
+    } else {
+      const { error: insertError } = await supabase.from("inquiry_rate_limits").insert({ ip_hash: ipHash });
+      if (insertError) console.error("Inquiry rate-limit insert failed", insertError);
+    }
+
+    const { error: cleanupError } = await supabase
+      .from("inquiry_rate_limits")
+      .delete()
+      .lt("window_started_at", new Date(now - WINDOW_MS * 4).toISOString());
+    if (cleanupError) console.error("Inquiry rate-limit cleanup failed", cleanupError);
+  } catch (error) {
+    console.error("Inquiry rate-limit skipped", error);
+  }
+
+  return { ok: true };
 }
 
 function getIp(request: NextRequest) {
