@@ -42,10 +42,16 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "RATE_LIMITED" }, { status: 429 });
   }
 
+  const linkedIds = await getExistingLinkedIds(
+    supabase,
+    parsed.data.tool_id ?? null,
+    parsed.data.service_id ?? null
+  );
+
   const { error } = await supabase.from("inquiries").insert({
     inquiry_type: parsed.data.inquiry_type,
-    tool_id: parsed.data.tool_id ?? null,
-    service_id: parsed.data.service_id ?? null,
+    tool_id: linkedIds.toolId,
+    service_id: linkedIds.serviceId,
     full_name: parsed.data.full_name.trim(),
     phone: parsed.data.phone.trim(),
     email: parsed.data.email || null,
@@ -61,6 +67,32 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json({ ok: true });
+}
+
+async function getExistingLinkedIds(
+  supabase: ReturnType<typeof createAdminSupabaseClient>,
+  toolId: string | null,
+  serviceId: string | null
+) {
+  const result = { toolId: null as string | null, serviceId: null as string | null };
+
+  try {
+    if (toolId) {
+      const { data, error } = await supabase.from("tools").select("id").eq("id", toolId).maybeSingle();
+      if (!error && data?.id) result.toolId = data.id;
+      if (error) console.error("Inquiry tool link lookup failed", error);
+    }
+
+    if (serviceId) {
+      const { data, error } = await supabase.from("services").select("id").eq("id", serviceId).maybeSingle();
+      if (!error && data?.id) result.serviceId = data.id;
+      if (error) console.error("Inquiry service link lookup failed", error);
+    }
+  } catch (error) {
+    console.error("Inquiry link lookup skipped", error);
+  }
+
+  return result;
 }
 
 function getRateLimitSalt() {
